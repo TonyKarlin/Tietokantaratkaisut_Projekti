@@ -35,7 +35,7 @@ PUT - asiakkaan tietojen päivittäminen id:n perusteella.
 PUT http://localhost:8080/customers/{id}
 Content-Type: application/json
 {
-  "firstName": "PÄIVITETTY",
+  "firstName": "PAIVITETTY",
   "lastName": "KAYTTAJA",
   "email": "updated@example.org",
   "phone": "0987654321"
