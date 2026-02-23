@@ -8,8 +8,8 @@
 		<version>4.0.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>fi.metropolia.tonykar.onnikiv</groupId>
-	<artifactId>Verkkokauppa_API</artifactId>
+	<groupId>verkkokauppa</groupId>
+	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Verkkokauppa_API</name>
 	<description>SpringBoot Verkkokauppa API</description>
