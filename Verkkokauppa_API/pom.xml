@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>verkkokauppa</groupId>
-	<artifactId>api</artifactId>
+	<artifactId>Verkkokauppa_API</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Verkkokauppa_API</name>
 	<description>SpringBoot Verkkokauppa API</description>
