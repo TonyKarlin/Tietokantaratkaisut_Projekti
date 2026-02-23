@@ -1,15 +1,12 @@
 ### GET hae kaikki asiakkaat
 GET http://localhost:8080/customers
-Accept: application/json
 
 ### GET hae asiakas id:n perusteella
 GET http://localhost:8080/customers/100002
-Accept: application/json
 
 ### POST uuden asiakkaan lisääminen (palauttaa dto objektin, jossa on id)
 POST http://localhost:8080/customers
 Content-Type: application/json
-Accept: application/json
 
 {
   "firstName": "pena",
@@ -21,15 +18,13 @@ Accept: application/json
 ### PUT päivittää asiakkaan tietoja (palauttaa dto objektin, jossa on id)
 PUT http://localhost:8080/customers/100002
 Content-Type: application/json
-Accept: application/json
 
 {
   "firstName": "pentti",
   "lastName": "ukko",
   "email": "penttiupdated@example.com",
-  "phoneNumber": "+3585050443413"
+  "phone": "+3585050443413"
 }
 
 ### DELETE poistaa asiakkaan id:n perusteella
 DELETE http://localhost:8080/customers/100002
-Accept: application/json
