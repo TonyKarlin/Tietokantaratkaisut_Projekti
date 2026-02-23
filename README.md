@@ -2,7 +2,17 @@
 
 ## Tietokanta info
 
-Sovelluksen käyttäjän luonti.
+Luo `.env` tiedosto `Verkkokauppa_API` kansion sisälle, käyttäen `.env.template` tiedostoa mallina.
+
+Aseta tietokannan nimi, käyttäjä ja salasana.
+
+```bash
+DB_URL=jdbc:mariadb://localhost:3306/{tietokannan nimi}
+DB_USER={käyttäjä}
+DB_PASSWORD={salasana}
+```
+
+Tyypillisen käyttäjän luonti:
 
 ```sql
 USE `tkr-projekti`;
@@ -11,3 +21,7 @@ CREATE USER IF NOT EXISTS 'dbuser'@'localhost' IDENTIFIED BY 'tkr-projekti';
 
 GRANT SELECT, INSERT, UPDATE ON `tkr-projekti`.* TO 'dbuser'@'localhost';
 ```
+
+## Endpoints
+
+Endpointit löytyvät [ENDPOINTS.md](/Endpoints.md) tiedostosta.
