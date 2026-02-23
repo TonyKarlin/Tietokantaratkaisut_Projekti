@@ -24,4 +24,4 @@ GRANT SELECT, INSERT, UPDATE ON `tkr-projekti`.* TO 'dbuser'@'localhost';
 
 ## Endpoints
 
-Endpointit löytyvät [ENDPOINTS.md](/Endpoints.md) tiedostosta.
+Endpointit löytyvät [ENDPOINTS.md](/ENDPOINTS.md) tiedostosta.
