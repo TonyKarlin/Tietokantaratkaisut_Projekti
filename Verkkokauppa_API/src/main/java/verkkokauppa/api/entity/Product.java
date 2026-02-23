@@ -35,11 +35,6 @@ public class Product {
     @Column(name = "supplier_id")
     private Integer supplierId;
 
-    // Constructors
-    public Product() {
-        // TODO document why this constructor is empty
-    }
-
     // Getters and Setters
     public Integer getId() {
         return id;

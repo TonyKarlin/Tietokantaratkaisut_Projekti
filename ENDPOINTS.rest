@@ -1,14 +1,10 @@
-## PRODUCTS
-
-
+﻿## --- PRODUCTS ---
 
 ### GET kaikki tuotteet
 GET http://localhost:8080/products
 
-
 ### GET tuote id:n perusteella.
 GET http://localhost:8080/products/{id}
-```
 
 ### POST uuden tuotteen lisääminen
 POST http://localhost:8080/products
@@ -23,3 +19,18 @@ Content-Type: application/json
   "supplierId": 1
 }
 
+### PUT tuotteen päivittäminen
+PUT http://localhost:8080/products/{id}
+Content-Type: application/json
+
+{
+  "categoryId": 1,
+  "description": "PÄIVITETTY KUVAUS",
+  "name": "PÄIVITETTY TUOTE",
+  "price": 150.75,
+  "stockQuantity": 20,
+  "supplierId": 1
+}
+
+### DELETE tuotteen poistaminen
+DELETE http://localhost:8080/products/1001
