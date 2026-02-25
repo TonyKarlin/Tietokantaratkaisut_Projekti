@@ -1,16 +1,16 @@
 package verkkokauppa.api.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import verkkokauppa.api.dtos.CustomerRequest;
 import verkkokauppa.api.entity.Customers;
 import verkkokauppa.api.repository.CustomersRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.CustomerNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomersService {
@@ -37,8 +37,8 @@ public class CustomersService {
             throw new InvalidArgumentException("Customer cannot be null");
         }
         if (!isValidCustomerRequest(customer)) {
-            throw new InvalidArgumentException("Invalid customer data: " +
-                    "Fields other than phone number must be non-empty");
+            throw new InvalidArgumentException("Invalid customer data: "
+                    + "Fields other than phone number must be non-empty");
         }
         Customers newCustomer = new Customers(
                 customer.firstName(),
@@ -57,8 +57,8 @@ public class CustomersService {
             throw new InvalidArgumentException("Update request cannot be null");
         }
         if (!isValidCustomerRequest(updateRequest)) {
-            throw new InvalidArgumentException("Invalid update request:" +
-                    " Fields other than phone number must be non-empty");
+            throw new InvalidArgumentException("Invalid update request:"
+                    + " Fields other than phone number must be non-empty");
         }
         Customers existingCustomer = customersRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
@@ -81,8 +81,8 @@ public class CustomersService {
     }
 
     private boolean isValidCustomerRequest(CustomerRequest updateRequest) {
-        return (updateRequest.firstName() != null && !updateRequest.firstName().isBlank()) &&
-                (updateRequest.lastName() != null && !updateRequest.lastName().isBlank()) &&
-                (updateRequest.email() != null && !updateRequest.email().isBlank());
+        return (updateRequest.firstName() != null && !updateRequest.firstName().isBlank())
+                && (updateRequest.lastName() != null && !updateRequest.lastName().isBlank())
+                && (updateRequest.email() != null && !updateRequest.email().isBlank());
     }
 }

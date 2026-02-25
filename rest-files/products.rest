@@ -33,4 +33,4 @@ Content-Type: application/json
 }
 
 ### DELETE tuotteen poistaminen
-DELETE http://localhost:8080/products/1001
+DELETE http://localhost:8080/products/{id}

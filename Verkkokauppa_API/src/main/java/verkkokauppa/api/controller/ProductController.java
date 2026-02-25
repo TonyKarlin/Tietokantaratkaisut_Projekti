@@ -1,7 +1,10 @@
 package verkkokauppa.api.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,76 +15,73 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import verkkokauppa.api.dtos.ProductDTO;
+import verkkokauppa.api.dtos.ProductRequest;
 import verkkokauppa.api.entity.Product;
-import verkkokauppa.api.repository.ProductRepository;
+import verkkokauppa.api.service.ProductService;
 import verkkokauppa.api.utility.LoggerUtil;
+import verkkokauppa.api.utility.ProductModelAssembler;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
+    private final ProductModelAssembler assembler;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService, ProductModelAssembler assembler) {
+        this.productService = productService;
+        this.assembler = assembler;
     }
 
-    // GET 
     @GetMapping
-    public List<Product> getAllProducts() {
-        LoggerUtil.logInfo("---FETCHING ALL PRODUCTS---");
-        return productRepository.findAll();
+    public ResponseEntity<Page<ProductDTO>> getAllProducts(@PageableDefault(size = 50) Pageable pageable) {
+        Page<ProductDTO> page = productService.getProductsPage(pageable)
+                .map(ProductDTO::new);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
+    public ResponseEntity<EntityModel<Product>> getProductById(@PathVariable Integer id) {
         LoggerUtil.logInfo("---FETCHING PRODUCT WITH ID: " + id + "---");
 
-        return productRepository.findById(id)
+        return productService.getProductById(id)
+                .map(assembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // POST
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
-        LoggerUtil.logInfo("---ADDING NEW PRODUCT: " + product.getName() + "---");
-        Product savedProduct = productRepository.save(product);
+    public ResponseEntity<ProductDTO> postProduct(@RequestBody ProductRequest request) {
+        LoggerUtil.logInfo("---ADDING NEW PRODUCT: " + request.name() + "---");
+        Product savedProduct = productService.postProducts(request);
         LoggerUtil.logInfo("---PRODUCT ADDED SUCCESSFULLY WITH ID: " + savedProduct.getId() + "---");
-        return savedProduct;
+
+        EntityModel<Product> productModel = assembler.toModel(savedProduct);
+        ProductDTO productDTO = new ProductDTO(savedProduct);
+        return ResponseEntity.created(productModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(productDTO);
     }
 
-    // PUT
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product productDetails) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Integer id,
+            @RequestBody ProductRequest request) {
         LoggerUtil.logInfo("---UPDATING PRODUCT WITH ID: " + id + "---");
+        Product updatedProduct = productService.updateProduct(id, request);
+        LoggerUtil.logInfo("---PRODUCT WITH ID: " + id + " UPDATED SUCCESSFULLY---");
 
-        return productRepository.findById(id)
-                .map(product -> {
-                    product.setName(productDetails.getName());
-                    product.setDescription(productDetails.getDescription());
-                    product.setPrice(productDetails.getPrice());
-                    product.setStockQuantity(productDetails.getStockQuantity());
-                    product.setCategoryId(productDetails.getCategoryId());
-                    product.setSupplierId(productDetails.getSupplierId());
-                    Product updatedProduct = productRepository.save(product);
-                    LoggerUtil.logInfo("---PRODUCT UPDATED SUCCESSFULLY WITH ID: " + updatedProduct.getId() + "---");
-                    return ResponseEntity.ok(updatedProduct);
-                })
-                .orElse(ResponseEntity.notFound().build());
+        EntityModel<Product> productModel = assembler.toModel(updatedProduct);
+        ProductDTO productDTO = new ProductDTO(updatedProduct);
+        return ResponseEntity.ok()
+                .location(productModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(productDTO);
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteProductById(@PathVariable Integer id) {
         LoggerUtil.logInfo("---DELETING PRODUCT WITH ID: " + id + "---");
-
-        return productRepository.findById(id)
-                .map(product -> {
-                    productRepository.delete(product);
-                    LoggerUtil.logInfo("---PRODUCT DELETED SUCCESSFULLY WITH ID: " + id + "---");
-                    return ResponseEntity.noContent().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+        productService.deleteCustomerById(id);
+        LoggerUtil.logInfo("---PRODUCT WITH ID: " + id + " DELETED SUCCESSFULLY---");
+        return ResponseEntity.noContent().build();
     }
 }
