@@ -15,7 +15,7 @@ public class Order {
     // LAZY should help with query performance since the number of orders could be massive
     // and each Customer entity would otherwise be loaded simultaneously
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @Column(name = "order_date")
@@ -23,8 +23,8 @@ public class Order {
     @Column(name = "delivery_date")
     private LocalDateTime deliveryDate;
 
-    @OneToOne()
-    @JoinColumn(name = "shipping_address_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "shipping_address_id", nullable = false)
     private CustomerAddress address;
 
     @Column(name = "status")

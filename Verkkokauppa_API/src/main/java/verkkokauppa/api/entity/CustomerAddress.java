@@ -25,6 +25,16 @@ public class CustomerAddress {
     @Column
     private String country;
 
+    public CustomerAddress() {}
+
+    public CustomerAddress(Customer customer, String street, String post, String city, String country) {
+        this.customerId = customer;
+        this.streetAddress = street;
+        this.postalCode = post;
+        this.city = city;
+        this.country = country;
+    }
+
     public Integer getId() {
         return id;
     }

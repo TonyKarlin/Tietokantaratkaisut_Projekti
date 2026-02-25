@@ -2,6 +2,9 @@ package verkkokauppa.api.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="customers")
 public class Customer {
@@ -20,6 +23,9 @@ public class Customer {
 
     @Column(name = "phone")
     private String phone;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private List<Order> orders = new ArrayList<>();
 
     public Customer() {
     }
@@ -69,5 +75,13 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
