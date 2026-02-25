@@ -1,54 +1,29 @@
-package verkkokauppa.api.entity;
+package verkkokauppa.api.dtos;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import verkkokauppa.api.entity.Product;
 
-@Entity
-@Table(name = "products")
-public class Product {
+public class ProductDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "description")
     private String description;
-
-    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
-
-    @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
-
-    @Column(name = "category_id")
     private Integer categoryId;
-
-    @Column(name = "supplier_id")
     private Integer supplierId;
 
-    public Product() {
-
+    public ProductDTO(Product product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.description = product.getDescription();
+        this.price = product.getPrice();
+        this.stockQuantity = product.getStockQuantity();
+        this.categoryId = product.getCategoryId();
+        this.supplierId = product.getSupplierId();
     }
 
-    public Product(String name, String description, BigDecimal price, Integer stockQuantity, Integer categoryId, Integer supplierId) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-        this.categoryId = categoryId;
-        this.supplierId = supplierId;
-    }
-
-    // Getters and Setters
     public Integer getId() {
         return id;
     }
