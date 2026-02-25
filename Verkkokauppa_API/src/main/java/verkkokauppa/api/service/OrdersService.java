@@ -36,6 +36,15 @@ public class OrdersService {
         return repository.findByIdWithCustomerAndAddress(id);
     }
 
+    public Page<Order> getOrdersByCustomer(Integer customerId, Pageable pageable) {
+        if (customerId == null) {
+            throw new InvalidArgumentException("Customer ID cannot be null");
+        }
+        fetchCustomer(customerId);
+        return repository.findAllOrdersByCustomerId(customerId, pageable);
+
+    }
+
     public Order postOrder(OrderRequest order) {
         if (order == null) {
             throw new InvalidArgumentException("Order cannot be null");

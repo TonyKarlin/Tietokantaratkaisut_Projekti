@@ -40,6 +40,17 @@ public class OrdersController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/by-customer/{id}")
+    public ResponseEntity<Page<OrderDTO>> getOrdersByCustomer(
+            @PathVariable Integer id,
+            @PageableDefault(size = 50) Pageable pageable
+    ) {
+        Page<OrderDTO> page = service.getOrdersByCustomer(id, pageable)
+                .map(OrderDTO::new);
+        return ResponseEntity.ok(page);
+    }
+
+
     @PostMapping
     public ResponseEntity<OrderDTO> postOrder(@RequestBody OrderRequest request) {
         LoggerUtil.logInfo("---ADDING NEW ORDER: " + request.status() + "---");

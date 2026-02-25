@@ -24,7 +24,12 @@ public class Customer {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "customer",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
+    )
     private List<Order> orders = new ArrayList<>();
 
     public Customer() {
