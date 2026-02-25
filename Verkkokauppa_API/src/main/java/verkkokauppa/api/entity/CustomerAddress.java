@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="customeraddresses")
-public class CustomerAddresses {
+public class CustomerAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne()
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customers customerId;
+    private Customer customerId;
 
     @Column()
     private String streetAddress;
@@ -33,11 +33,11 @@ public class CustomerAddresses {
         this.id = id;
     }
 
-    public Customers getCustomerId() {
+    public Customer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Customers customerId) {
+    public void setCustomerId(Customer customerId) {
         this.customerId = customerId;
     }
 

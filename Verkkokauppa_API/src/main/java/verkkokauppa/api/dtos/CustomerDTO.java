@@ -1,6 +1,6 @@
 package verkkokauppa.api.dtos;
 
-import verkkokauppa.api.entity.Customers;
+import verkkokauppa.api.entity.Customer;
 
 public class CustomerDTO {
     private Integer id;
@@ -9,7 +9,7 @@ public class CustomerDTO {
     private String email;
     private String phone;
 
-    public CustomerDTO(Customers customer) {
+    public CustomerDTO(Customer customer) {
         this.id = customer.getId();
         this.firstName = customer.getFirstName();
         this.lastName = customer.getLastName();

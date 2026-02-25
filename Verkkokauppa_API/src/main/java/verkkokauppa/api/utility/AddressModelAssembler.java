@@ -8,16 +8,16 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 import verkkokauppa.api.controller.CustomerAddressesController;
 import verkkokauppa.api.dtos.AddressDTO;
-import verkkokauppa.api.entity.CustomerAddresses;
+import verkkokauppa.api.entity.CustomerAddress;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @NullMarked
 @Component
-public class AddressModelAssembler implements RepresentationModelAssembler<CustomerAddresses, EntityModel<AddressDTO>> {
+public class AddressModelAssembler implements RepresentationModelAssembler<CustomerAddress, EntityModel<AddressDTO>> {
     @Override
-    public EntityModel<AddressDTO> toModel(CustomerAddresses address) {
+    public EntityModel<AddressDTO> toModel(CustomerAddress address) {
         AddressDTO dto = new ModelMapper().map(address, AddressDTO.class);
         return EntityModel.of(
                 dto,

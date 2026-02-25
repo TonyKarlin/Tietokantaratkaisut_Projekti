@@ -3,7 +3,7 @@ package verkkokauppa.api.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import verkkokauppa.api.entity.CustomerAddresses;
+import verkkokauppa.api.entity.CustomerAddress;
 import verkkokauppa.api.repository.CustomerAddressesRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
 
@@ -17,11 +17,11 @@ public class CustomerAddressesService {
         this.repository = repository;
     }
 
-    public Page<CustomerAddresses> getAddressesPage(Pageable pageable) {
+    public Page<CustomerAddress> getAddressesPage(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    public Optional<CustomerAddresses> getAddressById(Integer id) {
+    public Optional<CustomerAddress> getAddressById(Integer id) {
         if (id == null) {
             throw new InvalidArgumentException("ID cannot be null");
         }

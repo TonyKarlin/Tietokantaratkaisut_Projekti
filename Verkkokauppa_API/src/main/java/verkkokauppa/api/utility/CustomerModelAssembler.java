@@ -8,17 +8,17 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 import verkkokauppa.api.controller.CustomersController;
 import verkkokauppa.api.dtos.CustomerDTO;
-import verkkokauppa.api.entity.Customers;
+import verkkokauppa.api.entity.Customer;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @NullMarked
 @Component
-public class CustomerModelAssembler implements RepresentationModelAssembler<Customers, EntityModel<CustomerDTO>> {
+public class CustomerModelAssembler implements RepresentationModelAssembler<Customer, EntityModel<CustomerDTO>> {
 
     @Override
-    public EntityModel<CustomerDTO> toModel(Customers customer) {
+    public EntityModel<CustomerDTO> toModel(Customer customer) {
         CustomerDTO dto = new ModelMapper().map(customer, CustomerDTO.class);
         return EntityModel.of(
                 dto,

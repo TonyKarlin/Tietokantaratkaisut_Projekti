@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import verkkokauppa.api.dtos.CustomerDTO;
 import verkkokauppa.api.dtos.CustomerRequest;
-import verkkokauppa.api.entity.Customers;
+import verkkokauppa.api.entity.Customer;
 import verkkokauppa.api.service.CustomersService;
 import verkkokauppa.api.utility.CustomerModelAssembler;
 import verkkokauppa.api.utility.LoggerUtil;
@@ -48,7 +48,7 @@ public class CustomersController {
     @PostMapping
     public ResponseEntity<CustomerDTO> postCustomer(@RequestBody CustomerRequest request) {
         LoggerUtil.logInfo("---ADDING NEW CUSTOMER: " + request.firstName() + " " + request.lastName() + "---");
-        Customers savedCustomer = customersService.postCustomer(request);
+        Customer savedCustomer = customersService.postCustomer(request);
         LoggerUtil.logInfo("---CUSTOMER ADDED SUCCESSFULLY WITH ID: " + savedCustomer.getId() + "---");
 
         EntityModel<CustomerDTO> dtoModel = assembler.toModel(savedCustomer);
@@ -60,7 +60,7 @@ public class CustomersController {
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Integer id,
                                                       @RequestBody CustomerRequest request) {
         LoggerUtil.logInfo("---UPDATING CUSTOMER WITH ID: " + id + "---");
-        Customers updatedCustomer = customersService.updateCustomer(id, request);
+        Customer updatedCustomer = customersService.updateCustomer(id, request);
         LoggerUtil.logInfo("---CUSTOMER WITH ID: " + id + " UPDATED SUCCESSFULLY---");
 
         EntityModel<CustomerDTO> dtoModel = assembler.toModel(updatedCustomer);
