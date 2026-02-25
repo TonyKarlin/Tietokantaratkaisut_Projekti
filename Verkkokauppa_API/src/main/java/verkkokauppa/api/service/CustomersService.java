@@ -12,8 +12,6 @@ import verkkokauppa.api.repository.CustomersRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.CustomerNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
 
-import java.util.Optional;
-
 @Service
 public class CustomersService {
 
