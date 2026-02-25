@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import verkkokauppa.api.dtos.ProductRequest;
 import verkkokauppa.api.entity.Product;
 import verkkokauppa.api.repository.ProductRepository;
-import verkkokauppa.api.utility.exceptions.custom_exceptions.CustomerNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductNotFoundException;
 
 @Service
 public class ProductService {
@@ -37,8 +37,8 @@ public class ProductService {
             throw new InvalidArgumentException("Product cannot be null");
         }
         if (!isValidProductRequest(product)) {
-            throw new InvalidArgumentException("Invalid customer data: "
-                    + "Fields other than phone number must be non-empty");
+            throw new InvalidArgumentException("Invalid product data: "
+                    + "All fields must be non-empty");
         }
         Product newProduct = new Product(
                 product.name(),
@@ -63,7 +63,7 @@ public class ProductService {
             throw new InvalidArgumentException("Invalid update request:");
         }
         Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
 
         existingProduct.setName(updateRequest.name());
         existingProduct.setDescription(updateRequest.description());
@@ -75,12 +75,12 @@ public class ProductService {
         return productRepository.save(existingProduct);
     }
 
-    public void deleteCustomerById(Integer id) {
+    public void deleteProductById(Integer id) {
         if (id == null) {
             throw new InvalidArgumentException("ID cannot be null");
         }
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
         productRepository.delete(product);
     }
 

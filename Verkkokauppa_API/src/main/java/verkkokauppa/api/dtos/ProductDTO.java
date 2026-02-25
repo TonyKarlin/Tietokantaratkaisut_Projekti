@@ -14,6 +14,9 @@ public class ProductDTO {
     private Integer categoryId;
     private Integer supplierId;
 
+    public ProductDTO() {
+    }
+
     public ProductDTO(Product product) {
         this.id = product.getId();
         this.name = product.getName();

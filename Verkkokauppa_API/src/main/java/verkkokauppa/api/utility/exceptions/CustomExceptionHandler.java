@@ -4,13 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import verkkokauppa.api.utility.exceptions.custom_exceptions.CustomerNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.OrderNotFoundException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductCategoryNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductNotFoundException;
 
 @ControllerAdvice
 public class CustomExceptionHandler {
+
     // malli viesti, johon syötetään luokan nimi, joka aiheutti poikkeuksen
     // "%s" = paikka, johon luokan nimi asetetaan
     private static final String NOT_FOUND_MESSAGE = "The requested %s was not found.";
@@ -30,6 +33,12 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(notFoundMessage(ProductNotFoundException.class) + "\n" + e.getMessage());
+    }
+
+    @ExceptionHandler(ProductCategoryNotFoundException.class)
+    public ResponseEntity<String> handleProductCategoryNotFoundException(ProductCategoryNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(notFoundMessage(ProductCategoryNotFoundException.class) + "\n" + e.getMessage());
     }
 
     @ExceptionHandler(InvalidArgumentException.class)
