@@ -1,0 +1,5 @@
+### GET hae kaikki osoitteet
+GET http://localhost:8080/addresses
+
+### GET hae osoite id:n perusteella
+GET http://localhost:8080/addresses/5
