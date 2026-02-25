@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.CustomerNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.OrderNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductNotFoundException;
 
 @ControllerAdvice
@@ -35,5 +36,11 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> handleEmptyInputException(InvalidArgumentException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(EMPTY_INPUT_MESSAGE + "\n" + e.getMessage());
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<String> handleOrderNotFoundException(OrderNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(notFoundMessage(OrderNotFoundException.class) + "\n" + e.getMessage());
     }
 }

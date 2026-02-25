@@ -26,7 +26,7 @@ public class CustomersService {
 
     public Optional<Customer> getCustomerById(Integer id) {
         if (id == null) {
-            throw new InvalidArgumentException("ID cannot be null");
+            throw new InvalidArgumentException("Customer ID cannot be null");
         }
         return customersRepository.findById(id);
     }

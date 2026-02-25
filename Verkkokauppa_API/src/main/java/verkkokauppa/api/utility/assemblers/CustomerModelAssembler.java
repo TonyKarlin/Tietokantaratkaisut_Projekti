@@ -1,4 +1,4 @@
-package verkkokauppa.api.utility;
+package verkkokauppa.api.utility.assemblers;
 
 import org.jspecify.annotations.NullMarked;
 import org.modelmapper.ModelMapper;

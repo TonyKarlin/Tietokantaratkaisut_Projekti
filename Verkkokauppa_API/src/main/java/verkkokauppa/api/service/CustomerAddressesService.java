@@ -23,7 +23,7 @@ public class CustomerAddressesService {
 
     public Optional<CustomerAddress> getAddressById(Integer id) {
         if (id == null) {
-            throw new InvalidArgumentException("ID cannot be null");
+            throw new InvalidArgumentException("Address ID cannot be null");
         }
         return repository.findById(id);
     }

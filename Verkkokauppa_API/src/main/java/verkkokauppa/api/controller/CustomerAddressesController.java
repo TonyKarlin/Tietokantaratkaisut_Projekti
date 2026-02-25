@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import verkkokauppa.api.dtos.AddressDTO;
 import verkkokauppa.api.service.CustomerAddressesService;
-import verkkokauppa.api.utility.AddressModelAssembler;
+import verkkokauppa.api.utility.assemblers.AddressModelAssembler;
 
 @RestController
 @RequestMapping("/addresses")

@@ -11,7 +11,7 @@ import verkkokauppa.api.dtos.CustomerDTO;
 import verkkokauppa.api.dtos.CustomerRequest;
 import verkkokauppa.api.entity.Customer;
 import verkkokauppa.api.service.CustomersService;
-import verkkokauppa.api.utility.CustomerModelAssembler;
+import verkkokauppa.api.utility.assemblers.CustomerModelAssembler;
 import verkkokauppa.api.utility.LoggerUtil;
 
 @RestController
