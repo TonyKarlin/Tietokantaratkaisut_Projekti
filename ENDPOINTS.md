@@ -48,6 +48,20 @@ DELETE - asiakkaan poistaminen id:n perusteella.
 DELETE http://localhost:8080/customers/{id}
 ```
 
+## ADDRESSES
+
+GET - haetaan kaikki osoitteet.
+
+```HTTP
+GET http://localhost:8080/addresses
+```
+
+GET - haetaan osoite id:n perusteella.
+
+```HTTP
+GET http://localhost:8080/addresses/{id}
+```
+
 ## PRODUCTS
 
 GET - haetaan kaikki tuotteet.
@@ -148,4 +162,39 @@ DELETE - tuotekategorian poistaminen (HUOM. POISTAA SAMALLA KAIKKI TUOTTEET SEN 
 
 ```HTTP
 DELETE http://localhost:8080/productcategories/{id}
+```
+
+## ORDERS
+
+GET - haetaan kaikki tilaukset.
+
+```HTTP
+GET http://localhost:8080/orders
+```
+
+GET - haetaan tilaus id:n perusteella.
+
+```HTTP
+GET http://localhost:8080/orders/{id}
+```
+
+GET - haetaan tilaukset asiakkaan id:n perusteella.
+
+```HTTP
+GET http://localhost:8080/orders/by-customer/{customerId}
+```
+
+POST - uuden tilauksen lisääminen.
+
+```HTTP
+POST http://localhost:8080/orders
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "orderDate": "2024-06-02T00:00:00",
+  "deliveryDate": "2024-06-05T00:00:00",
+  "shippingAddressId": 1,
+  "status": "NEW"
+}
 ```
