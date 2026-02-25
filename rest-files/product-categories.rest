@@ -6,6 +6,9 @@ GET http://localhost:8080/productcategories
 ### GET tuotekategoria id:n perusteella.
 GET http://localhost:8080/productcategories/{id}
 
+### GET tuotekategoria tuotteineen (LAZY loading demonstration)
+GET http://localhost:8080/productcategories/{id}/products
+
 ### POST uuden tuotekategorian lisääminen
 POST http://localhost:8080/productcategories
 Content-Type: application/json

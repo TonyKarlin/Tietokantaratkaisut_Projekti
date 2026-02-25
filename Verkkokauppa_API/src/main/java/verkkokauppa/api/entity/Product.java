@@ -2,11 +2,16 @@ package verkkokauppa.api.entity;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,8 +34,14 @@ public class Product {
     @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
 
-    @Column(name = "category_id")
-    private Integer categoryId;
+    // M:1 relaatio - monta tuotetta voi kuulua yhteen kategoriaan
+    // EAGER loading: kategoria ladataan aina tuotteen mukana (pieni objekti)
+    // JoinColumn määrittää tietokannan sarakkeen nimen
+    // @JsonBackReference estää ympyräviittauksen JSON-serialisoinnissa (ei serialisoida takaisin parent-objektia)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private ProductCategory category;
 
     @Column(name = "supplier_id")
     private Integer supplierId;
@@ -39,12 +50,13 @@ public class Product {
 
     }
 
-    public Product(String name, String description, BigDecimal price, Integer stockQuantity, Integer categoryId, Integer supplierId) {
+    // Vanha konstruktori säilytetään taaksepäin yhteensopivuuden vuoksi
+    // categoryId-parametri jätetään pois, kategoria asetetaan setCategory-metodilla
+    public Product(String name, String description, BigDecimal price, Integer stockQuantity, Integer supplierId) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.categoryId = categoryId;
         this.supplierId = supplierId;
     }
 
@@ -89,12 +101,31 @@ public class Product {
         this.stockQuantity = stockQuantity;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public ProductCategory getCategory() {
+        return category;
     }
 
+    public void setCategory(ProductCategory category) {
+        this.category = category;
+    }
+
+    /**
+     * @deprecated Käytä getCategory().getId() sen sijaan. Tämä metodi
+     * poistetaan tulevissa versioissa.
+     */
+    @Deprecated(since = "1.0", forRemoval = true)
+    public Integer getCategoryId() {
+        return category != null ? category.getId() : null;
+    }
+
+    /**
+     * @deprecated Käytä setCategory(ProductCategory) sen sijaan. Tämä metodi
+     * poistetaan tulevissa versioissa.
+     */
+    @Deprecated(since = "1.0", forRemoval = true)
     public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+        // Tämä metodi säilytetään taaksepäin yhteensopivuuden vuoksi
+        // Todellinen kategoria-objekti asetetaan erikseen
     }
 
     public Integer getSupplierId() {

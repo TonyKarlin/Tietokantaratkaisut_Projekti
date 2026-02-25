@@ -8,17 +8,22 @@ import org.springframework.stereotype.Service;
 
 import verkkokauppa.api.dtos.ProductRequest;
 import verkkokauppa.api.entity.Product;
+import verkkokauppa.api.entity.ProductCategory;
+import verkkokauppa.api.repository.ProductCategoryRepository;
 import verkkokauppa.api.repository.ProductRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductCategoryNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductNotFoundException;
 
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository) {
         this.productRepository = productRepository;
+        this.productCategoryRepository = productCategoryRepository;
     }
 
     public Page<Product> getProductsPage(Pageable pageable) {
@@ -40,14 +45,22 @@ public class ProductService {
             throw new InvalidArgumentException("Invalid product data: "
                     + "All fields must be non-empty");
         }
+
+        // Haetaan kategoria ID:n perusteella
+        ProductCategory category = productCategoryRepository.findById(product.categoryId())
+                .orElseThrow(() -> new ProductCategoryNotFoundException(
+                "Product category not found with id: " + product.categoryId()));
+
         Product newProduct = new Product(
                 product.name(),
                 product.description(),
                 product.price(),
                 product.stockQuantity(),
-                product.categoryId(),
                 product.supplierId()
         );
+
+        // Asetetaan kategoria-objekti
+        newProduct.setCategory(category);
 
         return productRepository.save(newProduct);
     }
@@ -65,11 +78,20 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
 
+        // Haetaan uusi kategoria jos ID on muuttunut
+        if (updateRequest.categoryId() != null
+                && (existingProduct.getCategory() == null
+                || !existingProduct.getCategory().getId().equals(updateRequest.categoryId()))) {
+            ProductCategory category = productCategoryRepository.findById(updateRequest.categoryId())
+                    .orElseThrow(() -> new ProductCategoryNotFoundException(
+                    "Product category not found with id: " + updateRequest.categoryId()));
+            existingProduct.setCategory(category);
+        }
+
         existingProduct.setName(updateRequest.name());
         existingProduct.setDescription(updateRequest.description());
         existingProduct.setPrice(updateRequest.price());
         existingProduct.setStockQuantity(updateRequest.stockQuantity());
-        existingProduct.setCategoryId(updateRequest.categoryId());
         existingProduct.setSupplierId(updateRequest.supplierId());
 
         return productRepository.save(existingProduct);

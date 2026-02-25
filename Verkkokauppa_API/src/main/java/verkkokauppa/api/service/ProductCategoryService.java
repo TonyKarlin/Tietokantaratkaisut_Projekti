@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import verkkokauppa.api.dtos.ProductCategoryRequest;
 import verkkokauppa.api.entity.ProductCategory;
 import verkkokauppa.api.repository.ProductCategoryRepository;
+import verkkokauppa.api.utility.LoggerUtil;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductCategoryNotFoundException;
 
@@ -30,6 +31,24 @@ public class ProductCategoryService {
             throw new InvalidArgumentException("ID cannot be null");
         }
         return productCategoryRepository.findById(id);
+    }
+
+    // Kategorian kaikki tuotteet --LAzy loading
+    public Optional<ProductCategory> getProductCategoryWithProducts(Integer id) {
+        if (id == null) {
+            throw new InvalidArgumentException("ID cannot be null");
+        }
+        Optional<ProductCategory> category = productCategoryRepository.findById(id);
+
+        // Tuotteet ladataan vasta kun niitä käytetään (LAZY loading)
+        // Tämä getProducts()-kutsu pakottaa tuotteiden lataamisen
+        category.ifPresent(c -> {
+            LoggerUtil.logInfo("Ladataan kategorian " + c.getName() + " tuotteet (LAZY loading)...");
+            int productCount = c.getProducts().size();
+            LoggerUtil.logInfo("Kategoriassa on " + productCount + " tuotetta");
+        });
+
+        return category;
     }
 
     public ProductCategory postProductCategory(ProductCategoryRequest productCategory) {

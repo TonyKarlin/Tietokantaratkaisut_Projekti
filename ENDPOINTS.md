@@ -114,6 +114,12 @@ GET - haetaan tuotekategoria id:n perusteella.
 GET http://localhost:8080/productcategories/{id}
 ```
 
+GET - haetaan tuotekategoria ja sen kaikki tuotteet (LAZY loading).
+
+```HTTP
+GET http://localhost:8080/productcategories/{id}/products
+```
+
 POST - uuden tuotekategorian lisääminen.
 
 ```HTTP

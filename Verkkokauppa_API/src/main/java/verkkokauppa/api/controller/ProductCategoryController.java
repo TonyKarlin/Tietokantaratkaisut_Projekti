@@ -51,6 +51,16 @@ public class ProductCategoryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // Haetaan tietyn kategorian kaikki tuotteet
+    @GetMapping("/{id}/products")
+    public ResponseEntity<ProductCategory> getProductCategoryWithProducts(@PathVariable Integer id) {
+        LoggerUtil.logInfo("---FETCHING PRODUCT CATEGORY WITH PRODUCTS, ID: " + id + "---");
+
+        return productCategoryService.getProductCategoryWithProducts(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<ProductCategoryDTO> postProductCategory(@RequestBody ProductCategoryRequest request) {
         LoggerUtil.logInfo("---ADDING NEW PRODUCT CATEGORY: " + request.name() + "---");

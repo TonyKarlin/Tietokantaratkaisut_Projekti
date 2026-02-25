@@ -23,7 +23,8 @@ public class ProductDTO {
         this.description = product.getDescription();
         this.price = product.getPrice();
         this.stockQuantity = product.getStockQuantity();
-        this.categoryId = product.getCategoryId();
+        // Käytetään uutta relaatiota
+        this.categoryId = product.getCategory() != null ? product.getCategory().getId() : null;
         this.supplierId = product.getSupplierId();
     }
 
