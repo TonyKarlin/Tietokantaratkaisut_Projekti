@@ -36,7 +36,8 @@ public class CustomersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Customers>> getCustomerById(@PathVariable Integer id) {
+    public ResponseEntity<EntityModel<CustomerDTO>> getCustomerById(@PathVariable Integer id) {
+
         LoggerUtil.logInfo("---FETCHING CUSTOMER WITH ID: " + id + "---");
         return customersService.getCustomerById(id)
                 .map(assembler::toModel)
@@ -50,10 +51,9 @@ public class CustomersController {
         Customers savedCustomer = customersService.postCustomer(request);
         LoggerUtil.logInfo("---CUSTOMER ADDED SUCCESSFULLY WITH ID: " + savedCustomer.getId() + "---");
 
-        EntityModel<Customers> customerModel = assembler.toModel(savedCustomer);
-        CustomerDTO customerDTO = new CustomerDTO(savedCustomer);
-        return ResponseEntity.created(customerModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(customerDTO);
+        EntityModel<CustomerDTO> dtoModel = assembler.toModel(savedCustomer);
+        return ResponseEntity.created(dtoModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(dtoModel.getContent());
     }
 
     @PutMapping("/{id}")
@@ -63,11 +63,10 @@ public class CustomersController {
         Customers updatedCustomer = customersService.updateCustomer(id, request);
         LoggerUtil.logInfo("---CUSTOMER WITH ID: " + id + " UPDATED SUCCESSFULLY---");
 
-        EntityModel<Customers> customerModel = assembler.toModel(updatedCustomer);
-        CustomerDTO customerDTO = new CustomerDTO(updatedCustomer);
+        EntityModel<CustomerDTO> dtoModel = assembler.toModel(updatedCustomer);
         return ResponseEntity.ok()
-                .location(customerModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(customerDTO);
+                .location(dtoModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(dtoModel.getContent());
 
     }
 
