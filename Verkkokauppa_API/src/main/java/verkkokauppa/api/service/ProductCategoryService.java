@@ -5,10 +5,12 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import verkkokauppa.api.dtos.ProductCategoryRequest;
 import verkkokauppa.api.entity.ProductCategory;
 import verkkokauppa.api.repository.ProductCategoryRepository;
+import verkkokauppa.api.repository.ProductRepository;
 import verkkokauppa.api.utility.LoggerUtil;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductCategoryNotFoundException;
@@ -17,9 +19,12 @@ import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductCategoryNotF
 public class ProductCategoryService {
 
     private final ProductCategoryRepository productCategoryRepository;
+    private final ProductRepository productRepository;
 
-    public ProductCategoryService(ProductCategoryRepository productCategoryRepository) {
+    public ProductCategoryService(ProductCategoryRepository productCategoryRepository,
+            ProductRepository productRepository) {
         this.productCategoryRepository = productCategoryRepository;
+        this.productRepository = productRepository;
     }
 
     public Page<ProductCategory> getProductCategoriesPage(Pageable pageable) {
@@ -86,12 +91,15 @@ public class ProductCategoryService {
         return productCategoryRepository.save(existingProductCategory);
     }
 
+    @Transactional
     public void deleteProductCategoryById(Integer id) {
         if (id == null) {
             throw new InvalidArgumentException("ID cannot be null");
         }
         ProductCategory productCategory = productCategoryRepository.findById(id)
                 .orElseThrow(() -> new ProductCategoryNotFoundException("Product category not found with id: " + id));
+        productRepository.deleteOrderItemsByCategoryId(id);
+        productRepository.deleteAll(productCategory.getProducts());
         productCategoryRepository.delete(productCategory);
     }
 

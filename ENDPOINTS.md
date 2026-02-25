@@ -144,7 +144,7 @@ Content-Type: application/json
 }
 ```
 
-DELETE - tuotekategorian poistaminen id:n perusteella.
+DELETE - tuotekategorian poistaminen (HUOM. POISTAA SAMALLA KAIKKI TUOTTEET SEN KATEGORIASTA)
 
 ```HTTP
 DELETE http://localhost:8080/productcategories/{id}
