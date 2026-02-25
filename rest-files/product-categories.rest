@@ -1,0 +1,31 @@
+﻿## --- PRODUCTSCATEGORIES ---
+
+### GET kaikki tuotekategoriat
+GET http://localhost:8080/productcategories
+
+### GET tuotekategoria id:n perusteella.
+GET http://localhost:8080/productcategories/{id}
+
+### GET tuotekategorian kaikki tuotteet LAZY
+GET http://localhost:8080/productcategories/{id}/products
+
+### POST uuden tuotekategorian lisääminen
+POST http://localhost:8080/productcategories
+Content-Type: application/json
+
+{
+  "name": "testi",
+  "description": "testikategoria"
+}
+
+### PUT tuotekategorian päivittäminen
+PUT http://localhost:8080/productcategories/{id}
+Content-Type: application/json
+
+{
+  "name": "testipäivitys",
+  "description": "testikategoriapäivitys"
+}
+
+### DELETE tuotekategorian poistaminen HUOM. POISTAA SAMALLA KAIKKI TUOTTEET SEN KATEGORIASTA
+DELETE http://localhost:8080/productcategories/2

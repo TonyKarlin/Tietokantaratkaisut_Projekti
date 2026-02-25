@@ -20,7 +20,7 @@ import verkkokauppa.api.dtos.ProductRequest;
 import verkkokauppa.api.entity.Product;
 import verkkokauppa.api.service.ProductService;
 import verkkokauppa.api.utility.LoggerUtil;
-import verkkokauppa.api.utility.ProductModelAssembler;
+import verkkokauppa.api.utility.assemblers.ProductModelAssembler;
 
 @RestController
 @RequestMapping("/products")
@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Product>> getProductById(@PathVariable Integer id) {
+    public ResponseEntity<EntityModel<ProductDTO>> getProductById(@PathVariable Integer id) {
         LoggerUtil.logInfo("---FETCHING PRODUCT WITH ID: " + id + "---");
 
         return productService.getProductById(id)
@@ -57,10 +57,9 @@ public class ProductController {
         Product savedProduct = productService.postProducts(request);
         LoggerUtil.logInfo("---PRODUCT ADDED SUCCESSFULLY WITH ID: " + savedProduct.getId() + "---");
 
-        EntityModel<Product> productModel = assembler.toModel(savedProduct);
-        ProductDTO productDTO = new ProductDTO(savedProduct);
+        EntityModel<ProductDTO> productModel = assembler.toModel(savedProduct);
         return ResponseEntity.created(productModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(productDTO);
+                .body(productModel.getContent());
     }
 
     @PutMapping("/{id}")
@@ -70,17 +69,16 @@ public class ProductController {
         Product updatedProduct = productService.updateProduct(id, request);
         LoggerUtil.logInfo("---PRODUCT WITH ID: " + id + " UPDATED SUCCESSFULLY---");
 
-        EntityModel<Product> productModel = assembler.toModel(updatedProduct);
-        ProductDTO productDTO = new ProductDTO(updatedProduct);
+        EntityModel<ProductDTO> productModel = assembler.toModel(updatedProduct);
         return ResponseEntity.ok()
                 .location(productModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(productDTO);
+                .body(productModel.getContent());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProductById(@PathVariable Integer id) {
         LoggerUtil.logInfo("---DELETING PRODUCT WITH ID: " + id + "---");
-        productService.deleteCustomerById(id);
+        productService.deleteProductById(id);
         LoggerUtil.logInfo("---PRODUCT WITH ID: " + id + " DELETED SUCCESSFULLY---");
         return ResponseEntity.noContent().build();
     }

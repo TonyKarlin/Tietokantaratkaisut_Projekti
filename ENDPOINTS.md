@@ -99,3 +99,53 @@ DELETE - tuotteen poistaminen id:n perusteella.
 ```HTTP
 DELETE http://localhost:8080/products/{id}
 ```
+
+## PRODUCT CATEGORIES
+
+GET - haetaan kaikki tuotekategoriat (50 per sivu).
+
+```HTTP
+GET http://localhost:8080/productcategories
+```
+
+GET - haetaan tuotekategoria id:n perusteella.
+
+```HTTP
+GET http://localhost:8080/productcategories/{id}
+```
+
+GET - haetaan tuotekategoria ja sen kaikki tuotteet (LAZY loading).
+
+```HTTP
+GET http://localhost:8080/productcategories/{id}/products
+```
+
+POST - uuden tuotekategorian lisääminen.
+
+```HTTP
+POST http://localhost:8080/productcategories
+Content-Type: application/json
+
+{
+  "name": "testi",
+  "description": "testikategoria"
+}
+```
+
+PUT - tuotekategorian päivittäminen id:n perusteella.
+
+```HTTP
+PUT http://localhost:8080/productcategories/{id}
+Content-Type: application/json
+
+{
+  "name": "testipäivitys",
+  "description": "testikategoriapäivitys"
+}
+```
+
+DELETE - tuotekategorian poistaminen (HUOM. POISTAA SAMALLA KAIKKI TUOTTEET SEN KATEGORIASTA)
+
+```HTTP
+DELETE http://localhost:8080/productcategories/{id}
+```

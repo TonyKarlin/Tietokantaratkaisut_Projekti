@@ -14,13 +14,17 @@ public class ProductDTO {
     private Integer categoryId;
     private Integer supplierId;
 
+    public ProductDTO() {
+    }
+
     public ProductDTO(Product product) {
         this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();
         this.price = product.getPrice();
         this.stockQuantity = product.getStockQuantity();
-        this.categoryId = product.getCategoryId();
+        // Käytetään uutta relaatiota
+        this.categoryId = product.getCategory() != null ? product.getCategory().getId() : null;
         this.supplierId = product.getSupplierId();
     }
 
