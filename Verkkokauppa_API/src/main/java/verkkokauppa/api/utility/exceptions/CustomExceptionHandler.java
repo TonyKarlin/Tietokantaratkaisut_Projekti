@@ -49,7 +49,7 @@ public class CustomExceptionHandler {
                 .body(notFoundMessage(OrderNotFoundException.class) + "\n" + e.getMessage());
     }
 
-    @ExceptionHandler(SupplierAddressNotFoundException.class)
+    @ExceptionHandler(SupplierNotFoundException.class)
     public ResponseEntity<String> handleSupplierNotFoundException(SupplierNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(notFoundMessage(SupplierNotFoundException.class) + "\n" + e.getMessage());
