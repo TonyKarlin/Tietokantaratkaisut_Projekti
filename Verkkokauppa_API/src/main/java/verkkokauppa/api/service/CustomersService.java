@@ -82,6 +82,7 @@ public class CustomersService {
     private boolean isValidCustomerRequest(CustomerRequest updateRequest) {
         return (updateRequest.firstName() != null && !updateRequest.firstName().isBlank())
                 && (updateRequest.lastName() != null && !updateRequest.lastName().isBlank())
-                && (updateRequest.email() != null && !updateRequest.email().isBlank());
+                && (updateRequest.email() != null && !updateRequest.email().isBlank())
+                && (updateRequest.phoneNumber() != null && !updateRequest.phoneNumber().isBlank());
     }
 }

@@ -9,21 +9,21 @@ POST http://localhost:8080/customers
 Content-Type: application/json
 
 {
-  "firstName": "testiukko",
+  "firstName": "testiukko55",
   "lastName": "testinen",
   "email": "test@example.com",
-  "phone": "05050443413"
+  "phoneNumber": "05050443413"
 }
 
 ### PUT päivittää asiakkaan tietoja (palauttaa dto objektin, jossa on id)
-PUT http://localhost:8080/customers/100002
+PUT http://localhost:8080/customers/100004
 Content-Type: application/json
 
 {
   "firstName": "pentti",
   "lastName": "ukko",
   "email": "penttiupdated@example.com",
-  "phone": "+3585050443413"
+  "phoneNumber": "+3585050443413"
 }
 
 ### DELETE poistaa asiakkaan id:n perusteella

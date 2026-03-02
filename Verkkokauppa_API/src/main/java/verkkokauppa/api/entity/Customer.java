@@ -21,7 +21,7 @@ public class Customer {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false)
     private String phone;
 
     @OneToOne(mappedBy = "customer")

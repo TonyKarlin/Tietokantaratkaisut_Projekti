@@ -25,7 +25,7 @@ Content-Type: application/json
   "firstName": "TESTI",
   "lastName": "KAYTTAJA",
   "email": "test@example.org",
-  "phone": "1234567890" // valinnainen
+  "phoneNumber": "1234567890" // valinnainen
 }
 ```
 
@@ -38,7 +38,7 @@ Content-Type: application/json
   "firstName": "PAIVITETTY",
   "lastName": "KAYTTAJA",
   "email": "updated@example.org",
-  "phone": "0987654321"
+  "phoneNumber": "0987654321"
 }
 ```
 
