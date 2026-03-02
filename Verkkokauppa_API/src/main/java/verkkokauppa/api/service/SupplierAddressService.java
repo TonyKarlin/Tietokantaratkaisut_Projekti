@@ -59,13 +59,14 @@ public class SupplierAddressService {
                 .orElseThrow(() -> new SupplierNotFoundException(
                 "Supplier not found with id: " + request.supplierId()));
 
-        SupplierAddress newAddress = new SupplierAddress(
-                supplier,
-                request.streetAddress(),
-                request.postalCode(),
-                request.city(),
-                request.country()
-        );
+        SupplierAddress newAddress = new SupplierAddress();
+        newAddress.setSupplier(supplier);
+        newAddress.setStreetAddress(request.streetAddress());
+        newAddress.setPostalCode(request.postalCode());
+        newAddress.setCity(request.city());
+        newAddress.setCountry(request.country());
+
+        supplier.getAddresses().add(newAddress);
 
         return addressRepository.save(newAddress);
     }

@@ -1,6 +1,5 @@
 package verkkokauppa.api.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -42,12 +41,14 @@ public class CustomerAddressesService {
             throw new InvalidArgumentException("Address has invalid fields.");
         }
         Customer customer = customersService.getByIdOrThrow(address.customerId());
-        CustomerAddress customerAddress = new CustomerAddress(
-                customer,
-                address.street(),
-                address.postalCode(),
-                address.city(),
-                address.country());
+        CustomerAddress customerAddress = new CustomerAddress();
+        customerAddress.setCustomer(customer);
+        customerAddress.setStreetAddress(address.street());
+        customerAddress.setPostalCode(address.postalCode());
+        customerAddress.setCity(address.city());
+        customerAddress.setCountry(address.country());
+
+        customer.setAddress(customerAddress);
 
         return repository.save(customerAddress);
     }

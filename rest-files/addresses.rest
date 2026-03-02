@@ -9,7 +9,7 @@ POST http://localhost:8080/customer-addresses
 Content-Type: application/json
 
 {
-    "customerId": 100002,
+    "customerId": 100005,
     "street": "Uudenmaankatu 10",
     "postalCode": "00120",
     "city": "Helsinki",
@@ -17,12 +17,12 @@ Content-Type: application/json
 }
 
 ### PUT päivittää osoitteen tietoja
-PUT http://localhost:8080/customer-addresses/100002
+PUT http://localhost:8080/customer-addresses/3
 Content-Type: application/json
 
 {
-    "customerId": 100002,
-    "street": "Malminkaari 2",
+    "customerId": 100005,
+    "street": "Malminkaari 7",
     "postalCode": "00700",
     "city": "Helsinki",
     "country": "Finland"
