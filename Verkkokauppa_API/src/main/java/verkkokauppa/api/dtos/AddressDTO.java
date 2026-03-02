@@ -1,6 +1,8 @@
 package verkkokauppa.api.dtos;
 
 
+import verkkokauppa.api.entity.CustomerAddress;
+
 public class AddressDTO {
     private Integer id;
     private Integer customerId;
@@ -11,14 +13,13 @@ public class AddressDTO {
 
     public AddressDTO(){}
 
-    public AddressDTO(Integer id, Integer customerId, String streetAddress,
-                      String postalCode, String city, String country) {
-        this.id = id;
-        this.customerId = customerId;
-        this.streetAddress = streetAddress;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.country = country;
+    public AddressDTO(CustomerAddress customerAddress) {
+        this.id = customerAddress.getId();
+        this.customerId = customerAddress.getCustomer().getId();
+        this.streetAddress = customerAddress.getStreetAddress();
+        this.postalCode = customerAddress.getPostalCode();
+        this.city = customerAddress.getCity();
+        this.country = customerAddress.getCountry();
     }
 
 

@@ -21,8 +21,11 @@ public class Customer {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false)
     private String phone;
+
+    @OneToOne(mappedBy = "customer")
+    private CustomerAddress address;
 
     @OneToMany(
             mappedBy = "customer",
@@ -88,5 +91,13 @@ public class Customer {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public CustomerAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(CustomerAddress address) {
+        this.address = address;
     }
 }

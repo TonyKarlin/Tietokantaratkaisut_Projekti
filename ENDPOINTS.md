@@ -25,7 +25,7 @@ Content-Type: application/json
   "firstName": "TESTI",
   "lastName": "KAYTTAJA",
   "email": "test@example.org",
-  "phone": "1234567890" // valinnainen
+  "phoneNumber": "1234567890" // valinnainen
 }
 ```
 
@@ -38,7 +38,7 @@ Content-Type: application/json
   "firstName": "PAIVITETTY",
   "lastName": "KAYTTAJA",
   "email": "updated@example.org",
-  "phone": "0987654321"
+  "phoneNumber": "0987654321"
 }
 ```
 
@@ -53,13 +53,49 @@ DELETE http://localhost:8080/customers/{id}
 GET - haetaan kaikki osoitteet.
 
 ```HTTP
-GET http://localhost:8080/addresses
+GET http://localhost:8080/customer-addresses
 ```
 
 GET - haetaan osoite id:n perusteella.
 
 ```HTTP
-GET http://localhost:8080/addresses/{id}
+GET http://localhost:8080/customer-addresses/{id}
+```
+
+POST - uuden osoitteen lisääminen.
+
+```HTTP
+POST http://localhost:8080/customer-addresses
+Content-Type: application/json
+
+{
+  "customerId": 100002,
+  "street": "Uudenmaankatu 10",
+  "postalCode": "00120",
+  "city": "Helsinki",
+  "country": "Finland"
+}
+```
+
+PUT - osoitteen tietojen päivittäminen id:n perusteella.
+
+```HTTP
+PUT http://localhost:8080/customer-addresses/{id}
+Content-Type: application/json
+
+{
+  "customerId": 100002,
+  "street": "Malminkaari 2",
+  "postalCode": "00700",
+  "city": "Helsinki",
+  "country": "Finland"
+}
+```
+
+DELETE - osoitteen poistaminen id:n perusteella.
+
+```HTTP
+DELETE http://localhost:8080/customer-addresses/{id}
 ```
 
 ## PRODUCTS

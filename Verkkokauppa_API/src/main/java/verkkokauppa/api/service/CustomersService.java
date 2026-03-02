@@ -1,7 +1,5 @@
 package verkkokauppa.api.service;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,25 +12,27 @@ import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentExce
 
 @Service
 public class CustomersService {
-
+    private static final String CUSTOMER_NOT_FOUND = "Customer not found with id: ";
     private final CustomersRepository customersRepository;
 
     public CustomersService(CustomersRepository customersRepository) {
         this.customersRepository = customersRepository;
     }
 
-    public Page<Customer> getCustomersPage(Pageable pageable) {
+    public Page<Customer> getPage(Pageable pageable) {
         return customersRepository.findAll(pageable);
     }
 
-    public Optional<Customer> getCustomerById(Integer id) {
+    public Customer getByIdOrThrow(Integer id) {
         if (id == null) {
             throw new InvalidArgumentException("Customer ID cannot be null");
         }
-        return customersRepository.findById(id);
+        return customersRepository.findById(id)
+                .orElseThrow(() ->
+                        new CustomerNotFoundException(CUSTOMER_NOT_FOUND + id));
     }
 
-    public Customer postCustomer(CustomerRequest customer) {
+    public Customer postRequest(CustomerRequest customer) {
         if (customer == null) {
             throw new InvalidArgumentException("Customer cannot be null");
         }
@@ -49,19 +49,19 @@ public class CustomersService {
         return customersRepository.save(newCustomer);
     }
 
-    public Customer updateCustomer(Integer id, CustomerRequest updateRequest) {
+    public Customer putRequest(Integer id, CustomerRequest updateRequest) {
         if (id == null) {
             throw new InvalidArgumentException("ID cannot be null");
         }
         if (updateRequest == null) {
-            throw new InvalidArgumentException("Update request cannot be null");
+            throw new CustomerNotFoundException("Update request cannot be null");
         }
         if (!isValidCustomerRequest(updateRequest)) {
             throw new InvalidArgumentException("Invalid update request:"
                     + " Fields other than phone number must be non-empty");
         }
         Customer existingCustomer = customersRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NOT_FOUND + id));
 
         existingCustomer.setFirstName(updateRequest.firstName());
         existingCustomer.setLastName(updateRequest.lastName());
@@ -71,18 +71,18 @@ public class CustomersService {
         return customersRepository.save(existingCustomer);
     }
 
-    public void deleteCustomerById(Integer id) {
+    public void delete(Integer id) {
         if (id == null) {
             throw new InvalidArgumentException("ID cannot be null");
         }
-        Customer customer = customersRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
+        Customer customer = getByIdOrThrow(id);
         customersRepository.delete(customer);
     }
 
     private boolean isValidCustomerRequest(CustomerRequest updateRequest) {
         return (updateRequest.firstName() != null && !updateRequest.firstName().isBlank())
                 && (updateRequest.lastName() != null && !updateRequest.lastName().isBlank())
-                && (updateRequest.email() != null && !updateRequest.email().isBlank());
+                && (updateRequest.email() != null && !updateRequest.email().isBlank())
+                && (updateRequest.phoneNumber() != null && !updateRequest.phoneNumber().isBlank());
     }
 }
