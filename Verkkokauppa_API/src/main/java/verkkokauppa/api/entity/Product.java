@@ -1,9 +1,12 @@
 package verkkokauppa.api.entity;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +14,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -34,16 +39,25 @@ public class Product {
     @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
 
-    // M:1 relaatio - monta tuotetta voi kuulua yhteen kategoriaan
-    // EAGER loading: kategoria ladataan aina tuotteen mukana (pieni objekti)
-    // JoinColumn määrittää tietokannan sarakkeen nimen
-    // @JsonBackReference estää ympyräviittauksen JSON-serialisoinnissa (ei serialisoida takaisin parent-objektia)
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private ProductCategory category;
 
-    @Column(name = "supplier_id")
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinTable(
+            name = "product_suppliers",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "supplier_id")
+    )
+    private Set<Supplier> suppliers = new HashSet<>();
+
+    // Vanha supplier_id-sarake säilytetään taaksepäin yhteensopivuuden vuoksi
+    // insertable=false, updatable=false: JPA ei käytä tätä tallennuksessa
+    @Column(name = "supplier_id", insertable = false, updatable = false)
     private Integer supplierId;
 
     public Product() {
@@ -107,6 +121,24 @@ public class Product {
 
     public void setCategory(ProductCategory category) {
         this.category = category;
+    }
+
+    public Set<Supplier> getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(Set<Supplier> suppliers) {
+        this.suppliers = suppliers;
+    }
+
+    public void addSupplier(Supplier supplier) {
+        this.suppliers.add(supplier);
+        supplier.getProducts().add(this);
+    }
+
+    public void removeSupplier(Supplier supplier) {
+        this.suppliers.remove(supplier);
+        supplier.getProducts().remove(this);
     }
 
     /**

@@ -1,5 +1,8 @@
 package verkkokauppa.api.controller;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import verkkokauppa.api.dtos.ProductDTO;
 import verkkokauppa.api.dtos.SupplierDTO;
 import verkkokauppa.api.dtos.SupplierRequest;
 import verkkokauppa.api.entity.Supplier;
@@ -81,5 +85,33 @@ public class SupplierController {
         supplierService.deleteSupplier(id);
         LoggerUtil.logInfo("---SUPPLIER WITH ID: " + id + " DELETED SUCCESSFULLY---");
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/products")
+    public ResponseEntity<Set<ProductDTO>> getSupplierProducts(@PathVariable Integer id) {
+        LoggerUtil.logInfo("---FETCHING PRODUCTS FOR SUPPLIER ID: " + id + "---");
+        Set<ProductDTO> products = supplierService.getSupplierProducts(id)
+                .stream()
+                .map(ProductDTO::new)
+                .collect(Collectors.toSet());
+        return ResponseEntity.ok(products);
+    }
+
+    @PostMapping("/{supplierId}/products/{productId}")
+    public ResponseEntity<SupplierDTO> addProductToSupplier(
+            @PathVariable Integer supplierId,
+            @PathVariable Integer productId) {
+        LoggerUtil.logInfo("---ADDING PRODUCT " + productId + " TO SUPPLIER " + supplierId + "---");
+        Supplier updatedSupplier = supplierService.addProductToSupplier(supplierId, productId);
+        return ResponseEntity.ok(new SupplierDTO(updatedSupplier));
+    }
+
+    @DeleteMapping("/{supplierId}/products/{productId}")
+    public ResponseEntity<SupplierDTO> removeProductFromSupplier(
+            @PathVariable Integer supplierId,
+            @PathVariable Integer productId) {
+        LoggerUtil.logInfo("---REMOVING PRODUCT " + productId + " FROM SUPPLIER " + supplierId + "---");
+        Supplier updatedSupplier = supplierService.removeProductFromSupplier(supplierId, productId);
+        return ResponseEntity.ok(new SupplierDTO(updatedSupplier));
     }
 }

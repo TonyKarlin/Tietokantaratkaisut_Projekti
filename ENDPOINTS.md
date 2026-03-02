@@ -150,6 +150,26 @@ DELETE - tuotteen poistaminen id:n perusteella.
 DELETE http://localhost:8080/products/{id}
 ```
 
+### N:M-SUHDE: Product ↔ Supplier
+
+GET - haetaan tuotteen kaikki toimittajat (N:M-suhde). Alussa saattaa olla vastauksena tyhjä lista, koska tuotetta ja jälleenmyyjää ei ole linkitetty POST metodin kautta, mikä on tässä alempana.
+
+```HTTP
+GET http://localhost:8080/products/{id}/suppliers
+```
+
+POST - lisätään toimittaja tuotteelle (N:M-suhde).
+
+```HTTP
+POST http://localhost:8080/products/{productId}/suppliers/{supplierId}
+```
+
+DELETE - poistetaan toimittaja tuotteelta (N:M-suhde).
+
+```HTTP
+DELETE http://localhost:8080/products/{productId}/suppliers/{supplierId}
+```
+
 ## PRODUCT CATEGORIES
 
 GET - haetaan kaikki tuotekategoriat (50 per sivu).
@@ -233,4 +253,72 @@ Content-Type: application/json
   "shippingAddressId": 1,
   "status": "NEW"
 }
+```
+
+## SUPPLIERS
+
+GET - haetaan kaikki toimittajat (50 per sivu).
+
+```HTTP
+GET http://localhost:8080/suppliers
+```
+
+GET - haetaan toimittaja id:n perusteella.
+
+```HTTP
+GET http://localhost:8080/suppliers/{id}
+```
+
+POST - uuden toimittajan lisääminen.
+
+```HTTP
+POST http://localhost:8080/suppliers
+Content-Type: application/json
+
+{
+  "name": "Tech Wholesale Oy",
+  "contactName": "Matti Meikäläinen",
+  "phone": "+358401234567",
+  "email": "matti@tech.fi"
+}
+```
+
+PUT - toimittajan tietojen päivittäminen id:n perusteella.
+
+```HTTP
+PUT http://localhost:8080/suppliers/{id}
+Content-Type: application/json
+
+{
+  "name": "Päivitetty yritys",
+  "contactName": "Liisa Virtanen",
+  "phone": "+358409876543",
+  "email": "liisa@updated.fi"
+}
+```
+
+DELETE - toimittajan poistaminen id:n perusteella.
+
+```HTTP
+DELETE http://localhost:8080/suppliers/{id}
+```
+
+### N:M-SUHDE: Supplier ↔ Product
+
+GET - haetaan toimittajan kaikki tuotteet (N:M-suhde).
+
+```HTTP
+GET http://localhost:8080/suppliers/{id}/products
+```
+
+POST - lisätään tuote toimittajalle (N:M-suhde).
+
+```HTTP
+POST http://localhost:8080/suppliers/{supplierId}/products/{productId}
+```
+
+DELETE - poistetaan tuote toimittajalta (N:M-suhde).
+
+```HTTP
+DELETE http://localhost:8080/suppliers/{supplierId}/products/{productId}
 ```
