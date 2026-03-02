@@ -1,0 +1,40 @@
+## --- SUPPLIER ADDRESSES ---
+
+### GET haetaan kaikki supplieraddresses
+GET http://localhost:8080/supplieraddresses
+
+### GET haetaan kaikki supplieraddresses, custom määrällä
+GET http://localhost:8080/supplieraddresses?page=0&size=10
+
+### GET supplieraddress haku id:n perusteella
+GET http://localhost:8080/supplieraddresses/1
+
+### GET all addresses for a specific supplier
+GET http://localhost:8080/supplieraddresses/supplier/{id}
+
+### POST create new supplier address
+POST http://localhost:8080/supplieraddresses
+Content-Type: application/json
+
+{
+  "supplierId": {id},
+  "streetAddress": "testitie 123",
+  "postalCode": "00100",
+  "city": "Helsinki",
+  "country": "Finland"
+}
+
+### PUT update supplier address
+PUT http://localhost:8080/supplieraddresses/{id}
+Content-Type: application/json
+
+{
+  "supplierId": 1,
+  "streetAddress": "testitie 567",
+  "postalCode": "00200",
+  "city": "Espoo",
+  "country": "Finland"
+}
+
+### DELETE supplier address by id
+DELETE http://localhost:8080/supplieraddresses/{id}

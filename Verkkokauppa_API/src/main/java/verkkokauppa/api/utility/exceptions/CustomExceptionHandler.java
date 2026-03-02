@@ -10,6 +10,7 @@ import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentExce
 import verkkokauppa.api.utility.exceptions.custom_exceptions.OrderNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductCategoryNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductNotFoundException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.SupplierAddressNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.SupplierNotFoundException;
 
 @ControllerAdvice
@@ -58,5 +59,11 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> handleSupplierNotFoundException(SupplierNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(notFoundMessage(SupplierNotFoundException.class) + "\n" + e.getMessage());
+    }
+
+    @ExceptionHandler(SupplierAddressNotFoundException.class)
+    public ResponseEntity<String> handleSupplierAddressNotFoundException(SupplierAddressNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(notFoundMessage(SupplierAddressNotFoundException.class) + "\n" + e.getMessage());
     }
 }
