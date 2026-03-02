@@ -1,0 +1,35 @@
+## --- SUPPLIERS ---
+
+### GET haetaan kaikki suppliers
+GET http://localhost:8080/suppliers
+
+### GET haetaan kaikki suppliers, custom määrällä
+GET http://localhost:8080/suppliers?page=0&size=10
+
+### GET haetaan supplier id:n mukaan
+GET http://localhost:8080/suppliers/{id}
+
+### POST lisätään uusi supplier id:n mukaan
+POST http://localhost:8080/suppliers
+Content-Type: application/json
+
+{
+  "name": "Testi firma",
+  "contactName": "Testi Timo",
+  "phone": "+01010101001",
+  "email": "timo@testi.com"
+}
+
+### PUT päivitetään supplier id:n perusteella.
+PUT http://localhost:8080/suppliers/{id}
+Content-Type: application/json
+
+{
+  "name": "Updated Supplier Name",
+  "contactName": "Jane Smith",
+  "phone": "+358409876543",
+  "email": "jane@supplier.com"
+}
+
+### DELETE poistetaan supplier id:n perusteella.
+DELETE http://localhost:8080/suppliers/{id}
