@@ -11,7 +11,8 @@ public class CustomerAddress {
 
     @OneToOne()
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customerId;
+    @MapsId
+    private Customer customer;
 
     @Column()
     private String streetAddress;
@@ -28,7 +29,7 @@ public class CustomerAddress {
     public CustomerAddress() {}
 
     public CustomerAddress(Customer customer, String street, String post, String city, String country) {
-        this.customerId = customer;
+        this.customer = customer;
         this.streetAddress = street;
         this.postalCode = post;
         this.city = city;
@@ -43,12 +44,12 @@ public class CustomerAddress {
         this.id = id;
     }
 
-    public Customer getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Customer customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customerId) {
+        this.customer = customerId;
     }
 
     public String getStreetAddress() {

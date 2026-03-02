@@ -24,6 +24,9 @@ public class Customer {
     @Column(name = "phone")
     private String phone;
 
+    @OneToOne(mappedBy = "customer")
+    private CustomerAddress address;
+
     @OneToMany(
             mappedBy = "customer",
             fetch = FetchType.LAZY,
@@ -88,5 +91,13 @@ public class Customer {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public CustomerAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(CustomerAddress address) {
+        this.address = address;
     }
 }

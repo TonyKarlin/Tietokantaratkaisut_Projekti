@@ -30,25 +30,30 @@ public class CustomersController {
 
     @GetMapping
     public ResponseEntity<Page<CustomerDTO>> getAllCustomers(@PageableDefault(size = 50) Pageable pageable) {
-        Page<CustomerDTO> page = customersService.getCustomersPage(pageable)
+        Page<CustomerDTO> customerPage = customersService.getPage(pageable)
                 .map(CustomerDTO::new);
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(customerPage);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<CustomerDTO>> getCustomerById(@PathVariable Integer id) {
 
         LoggerUtil.logInfo("---FETCHING CUSTOMER WITH ID: " + id + "---");
-        return customersService.getCustomerById(id)
-                .map(assembler::toModel)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Customer customer =
+                customersService.getByIdOrThrow(id);
+
+        return ResponseEntity.ok(
+                assembler.toModel(customer)
+        );
     }
 
     @PostMapping
     public ResponseEntity<CustomerDTO> postCustomer(@RequestBody CustomerRequest request) {
+        if (request == null) {
+            return ResponseEntity.noContent().build();
+        }
         LoggerUtil.logInfo("---ADDING NEW CUSTOMER: " + request.firstName() + " " + request.lastName() + "---");
-        Customer savedCustomer = customersService.postCustomer(request);
+        Customer savedCustomer = customersService.postRequest(request);
         LoggerUtil.logInfo("---CUSTOMER ADDED SUCCESSFULLY WITH ID: " + savedCustomer.getId() + "---");
 
         EntityModel<CustomerDTO> dtoModel = assembler.toModel(savedCustomer);
@@ -60,7 +65,7 @@ public class CustomersController {
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Integer id,
                                                       @RequestBody CustomerRequest request) {
         LoggerUtil.logInfo("---UPDATING CUSTOMER WITH ID: " + id + "---");
-        Customer updatedCustomer = customersService.updateCustomer(id, request);
+        Customer updatedCustomer = customersService.putRequest(id, request);
         LoggerUtil.logInfo("---CUSTOMER WITH ID: " + id + " UPDATED SUCCESSFULLY---");
 
         EntityModel<CustomerDTO> dtoModel = assembler.toModel(updatedCustomer);
@@ -73,7 +78,7 @@ public class CustomersController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomerById(@PathVariable Integer id) {
         LoggerUtil.logInfo("---DELETING CUSTOMER WITH ID: " + id + "---");
-        customersService.deleteCustomerById(id);
+        customersService.delete(id);
         LoggerUtil.logInfo("---CUSTOMER WITH ID: " + id + " DELETED SUCCESSFULLY---");
         return ResponseEntity.noContent().build();
     }

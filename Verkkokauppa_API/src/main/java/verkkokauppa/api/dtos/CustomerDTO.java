@@ -9,6 +9,9 @@ public class CustomerDTO {
     private String email;
     private String phone;
 
+    public CustomerDTO() {
+    }
+
     public CustomerDTO(Customer customer) {
         this.id = customer.getId();
         this.firstName = customer.getFirstName();

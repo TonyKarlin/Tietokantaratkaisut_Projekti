@@ -53,13 +53,13 @@ DELETE http://localhost:8080/customers/{id}
 GET - haetaan kaikki osoitteet.
 
 ```HTTP
-GET http://localhost:8080/addresses
+GET http://localhost:8080/customer-addresses
 ```
 
 GET - haetaan osoite id:n perusteella.
 
 ```HTTP
-GET http://localhost:8080/addresses/{id}
+GET http://localhost:8080/customer-addresses/{id}
 ```
 
 ## PRODUCTS

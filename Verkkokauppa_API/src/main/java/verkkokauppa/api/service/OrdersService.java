@@ -1,6 +1,5 @@
 package verkkokauppa.api.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,18 +69,10 @@ public class OrdersService {
     }
 
     private Customer fetchCustomer(Integer id) {
-        Optional<Customer> optCustomer = customersService.getCustomerById(id);
-        if (optCustomer.isEmpty()) {
-            throw new EntityNotFoundException("Customer not found with id: " + id);
-        }
-        return optCustomer.get();
+        return customersService.getByIdOrThrow(id);
     }
 
     private CustomerAddress fetchAddress(Integer id) {
-        Optional<CustomerAddress> optAdd = addressesService.getAddressById(id);
-        if (optAdd.isEmpty()) {
-            throw new EntityNotFoundException("Address not found with id: " + id);
-        }
-        return optAdd.get();
+        return addressesService.getByIdOrThrow(id);
     }
 }
