@@ -1,10 +1,16 @@
 package verkkokauppa.api.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,6 +32,13 @@ public class Supplier {
 
     @Column(name = "email")
     private String email;
+
+    @ManyToMany(
+            mappedBy = "suppliers",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    private Set<Product> products = new HashSet<>();
 
     public Supplier() {
     }
@@ -76,5 +89,31 @@ public class Supplier {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+    /**
+     * Helper-metodi tuotteen lisäämiseen. Huolehtii kahdensuuntaisen suhteen
+     * ylläpidosta.
+     */
+    public void addProduct(Product product) {
+        this.products.add(product);
+        product.getSuppliers().add(this);
+    }
+
+    /**
+     * Helper-metodi tuotteen poistamiseen. Huolehtii kahdensuuntaisen suhteen
+     * ylläpidosta.
+     */
+    public void removeProduct(Product product) {
+        this.products.remove(product);
+        product.getSuppliers().remove(this);
     }
 }

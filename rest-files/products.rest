@@ -4,19 +4,18 @@
 GET http://localhost:8080/products
 
 ### GET tuote id:n perusteella.
-GET http://localhost:8080/products/{id}
+GET http://localhost:8080/products/9
 
 ### POST uuden tuotteen lisääminen
 POST http://localhost:8080/products
 Content-Type: application/json
 
 {
-  "categoryId": 1,
+  "categoryId": 6,
   "description": "TESTITESTI",
   "name": "TESTITUOTE",
   "price": 100.50,
-  "stockQuantity": 10,
-  "supplierId": 1
+  "stockQuantity": 10
 }
 
 ### PUT tuotteen päivittäminen
@@ -28,8 +27,7 @@ Content-Type: application/json
   "description": "PÄIVITETTY KUVAUS",
   "name": "PÄIVITETTY TUOTE",
   "price": 150.75,
-  "stockQuantity": 20,
-  "supplierId": 1
+  "stockQuantity": 20
 }
 
 ### DELETE tuotteen poistaminen

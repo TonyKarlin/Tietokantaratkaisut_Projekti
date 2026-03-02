@@ -1,0 +1,19 @@
+## --- PRODUCT-SUPPLIER N:M RELATIONSHIP ---
+
+### GET tuotteen kaikki toimittajat
+GET http://localhost:8080/products/{id}/suppliers
+
+### POST lisää toimittaja tuotteelle
+POST http://localhost:8080/products/{productId}/suppliers/{supplierId}
+
+### DELETE poista toimittaja tuotteelta
+DELETE http://localhost:8080/products/{productId}/suppliers/{supplierId}
+
+### GET toimittajan kaikki tuotteet
+GET http://localhost:8080/suppliers/{id}/products
+
+### POST lisää tuote toimittajalle
+POST http://localhost:8080/suppliers/{supplierId}/products/{productId}
+
+### DELETE poista tuote toimittajalta
+DELETE http://localhost:8080/suppliers/{supplierId}/products/{productId}

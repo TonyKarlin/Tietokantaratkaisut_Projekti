@@ -1,7 +1,6 @@
 package verkkokauppa.api.utility.assemblers;
 
 import org.jspecify.annotations.NullMarked;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -19,7 +18,8 @@ public class ProductModelAssembler implements RepresentationModelAssembler<Produ
 
     @Override
     public EntityModel<ProductDTO> toModel(Product product) {
-        ProductDTO dto = new ModelMapper().map(product, ProductDTO.class);
+        // Käytetään suoraan konstruktoria ModelMapperin sijaan
+        ProductDTO dto = new ProductDTO(product);
         return EntityModel.of(
                 dto,
                 linkTo(methodOn(ProductController.class).getProductById(product.getId())).withSelfRel(),

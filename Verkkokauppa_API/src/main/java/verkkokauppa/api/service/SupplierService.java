@@ -1,24 +1,30 @@
 package verkkokauppa.api.service;
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import verkkokauppa.api.dtos.SupplierRequest;
+import verkkokauppa.api.entity.Product;
 import verkkokauppa.api.entity.Supplier;
+import verkkokauppa.api.repository.ProductRepository;
 import verkkokauppa.api.repository.SupplierRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductNotFoundException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.SupplierNotFoundException;
 
 @Service
 public class SupplierService {
 
     private final SupplierRepository supplierRepository;
+    private final ProductRepository productRepository;
 
-    public SupplierService(SupplierRepository supplierRepository) {
+    public SupplierService(SupplierRepository supplierRepository, ProductRepository productRepository) {
         this.supplierRepository = supplierRepository;
+        this.productRepository = productRepository;
     }
 
     public Page<Supplier> getSuppliersPage(Pageable pageable) {
@@ -85,5 +91,45 @@ public class SupplierService {
 
     private boolean isValidSupplierRequest(SupplierRequest request) {
         return request.name() != null && !request.name().trim().isEmpty();
+    }
+
+    public Set<Product> getSupplierProducts(Integer supplierId) {
+        if (supplierId == null) {
+            throw new InvalidArgumentException("Supplier ID cannot be null");
+        }
+        Supplier supplier = supplierRepository.findById(supplierId)
+                .orElseThrow(() -> new SupplierNotFoundException("Supplier not found with id: " + supplierId));
+
+        return supplier.getProducts();
+    }
+
+    public Supplier addProductToSupplier(Integer supplierId, Integer productId) {
+        if (supplierId == null || productId == null) {
+            throw new InvalidArgumentException("Supplier ID and Product ID cannot be null");
+        }
+
+        Supplier supplier = supplierRepository.findById(supplierId)
+                .orElseThrow(() -> new SupplierNotFoundException("Supplier not found with id: " + supplierId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + productId));
+
+        supplier.addProduct(product);
+        return supplierRepository.save(supplier);
+    }
+
+    public Supplier removeProductFromSupplier(Integer supplierId, Integer productId) {
+        if (supplierId == null || productId == null) {
+            throw new InvalidArgumentException("Supplier ID and Product ID cannot be null");
+        }
+
+        Supplier supplier = supplierRepository.findById(supplierId)
+                .orElseThrow(() -> new SupplierNotFoundException("Supplier not found with id: " + supplierId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + productId));
+
+        supplier.removeProduct(product);
+        return supplierRepository.save(supplier);
     }
 }
