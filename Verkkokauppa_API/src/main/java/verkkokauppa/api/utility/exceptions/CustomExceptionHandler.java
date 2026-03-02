@@ -5,7 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import verkkokauppa.api.utility.exceptions.custom_exceptions.*;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.CustomerNotFoundException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.OrderNotFoundException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductCategoryNotFoundException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductNotFoundException;
 
 @ControllerAdvice
 public class CustomExceptionHandler {
@@ -47,6 +51,18 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> handleOrderNotFoundException(OrderNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(notFoundMessage(OrderNotFoundException.class) + "\n" + e.getMessage());
+    }
+
+    @ExceptionHandler(SupplierNotFoundException.class)
+    public ResponseEntity<String> handleSupplierNotFoundException(SupplierNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(notFoundMessage(SupplierNotFoundException.class) + "\n" + e.getMessage());
+    }
+
+    @ExceptionHandler(SupplierAddressNotFoundException.class)
+    public ResponseEntity<String> handleSupplierAddressNotFoundException(SupplierAddressNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(notFoundMessage(SupplierAddressNotFoundException.class) + "\n" + e.getMessage());
     }
 
     @ExceptionHandler(AddressNotFoundException.class)
