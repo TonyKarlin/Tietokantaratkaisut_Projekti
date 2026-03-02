@@ -62,6 +62,42 @@ GET - haetaan osoite id:n perusteella.
 GET http://localhost:8080/customer-addresses/{id}
 ```
 
+POST - uuden osoitteen lisääminen.
+
+```HTTP
+POST http://localhost:8080/customer-addresses
+Content-Type: application/json
+
+{
+  "customerId": 100002,
+  "street": "Uudenmaankatu 10",
+  "postalCode": "00120",
+  "city": "Helsinki",
+  "country": "Finland"
+}
+```
+
+PUT - osoitteen tietojen päivittäminen id:n perusteella.
+
+```HTTP
+PUT http://localhost:8080/customer-addresses/{id}
+Content-Type: application/json
+
+{
+  "customerId": 100002,
+  "street": "Malminkaari 2",
+  "postalCode": "00700",
+  "city": "Helsinki",
+  "country": "Finland"
+}
+```
+
+DELETE - osoitteen poistaminen id:n perusteella.
+
+```HTTP
+DELETE http://localhost:8080/customer-addresses/{id}
+```
+
 ## PRODUCTS
 
 GET - haetaan kaikki tuotteet.
