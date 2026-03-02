@@ -35,7 +35,7 @@ public class Supplier {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
-    private Set<Product> products = new HashSet<>() >();
+    private Set<Product> products = new HashSet<>();
 
     public Supplier() {
     }
