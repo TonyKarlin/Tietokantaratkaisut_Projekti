@@ -32,9 +32,11 @@ public class OrderItemController {
         return ResponseEntity.ok(page);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<OrderItemDTO>> getOrderItemById(@PathVariable Integer id) {
-        OrderItem orderItem = orderItemService.getByIdOrThrow(id);
+    @GetMapping("/{orderId}/product/{productId}")
+    public ResponseEntity<EntityModel<OrderItemDTO>> getOrderItemById(
+            @PathVariable Integer orderId,
+            @PathVariable Integer productId) {
+        OrderItem orderItem = orderItemService.getByIdOrThrow(orderId, productId);
         return ResponseEntity.ok(
                 assembler.toModel(orderItem)
         );

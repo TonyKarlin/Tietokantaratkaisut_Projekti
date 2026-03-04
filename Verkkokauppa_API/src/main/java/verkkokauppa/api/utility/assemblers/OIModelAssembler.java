@@ -22,8 +22,10 @@ public class OIModelAssembler implements RepresentationModelAssembler<OrderItem,
         OrderItemDTO dto = new ModelMapper().map(orderItem, OrderItemDTO.class);
         return EntityModel.of(
                 dto,
-                linkTo(methodOn(OrderItemController.class).getOrderItemById(orderItem.getId())).withSelfRel(),
-                linkTo(methodOn(OrderItemController.class).getAllOrderItems(Pageable.unpaged())).withRel("customers")
+                linkTo(methodOn(OrderItemController.class)
+                        .getOrderItemById(orderItem.getId().getOrderId(), orderItem.getId().getProductId()))
+                        .withSelfRel(),
+                linkTo(methodOn(OrderItemController.class).getAllOrderItems(Pageable.unpaged())).withRel("orderItems")
         );
     }
 }

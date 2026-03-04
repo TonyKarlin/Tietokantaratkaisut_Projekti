@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import verkkokauppa.api.entity.OrderItem;
+import verkkokauppa.api.entity.OrderItemId;
 import verkkokauppa.api.repository.OrderItemsRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidDiscountException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.OrderItemNotFoundException;
@@ -15,7 +16,7 @@ import java.math.RoundingMode;
 
 @Service
 public class OrderItemService {
-    private static final String NOT_FOUND_MESSAGE = "Order not found with id: ";
+    private static final String NOT_FOUND_MESSAGE = "Order item not found with id: ";
     private final OrderItemsRepository repository;
 
     public OrderItemService(OrderItemsRepository repository) {
@@ -26,20 +27,17 @@ public class OrderItemService {
         return repository.findAll(pageable);
     }
 
-    public OrderItem getByIdOrThrow(Integer id) {
-        if (id == null) {
-            throw new OrderItemNotFoundException(NOT_FOUND_MESSAGE + null);
-        }
+    public OrderItem getByIdOrThrow(Integer orderId, Integer productId) {
+        OrderItemId id = new OrderItemId(orderId, productId);
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new OrderItemNotFoundException(NOT_FOUND_MESSAGE + id));
+                        new OrderItemNotFoundException(NOT_FOUND_MESSAGE + orderId + "/" + productId));
     }
 
     @Transactional
     public int applyDiscountToOrderItems(Integer orderId, BigDecimal discount) {
         if (orderId == null) throw new OrderNotFoundException("Order id is null.");
         if (discount.compareTo(BigDecimal.ZERO) >= 0 && discount.compareTo(BigDecimal.valueOf(100)) <= 0) {
-
             BigDecimal multiplier = BigDecimal.ONE.subtract(
                     discount.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP));
             return repository.applyDiscountToOrder(orderId, multiplier);
