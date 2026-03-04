@@ -22,3 +22,8 @@ CREATE TABLE supplieraddresses
     FOREIGN KEY (id) REFERENCES addresses (id),
     FOREIGN KEY (supplier_id) REFERENCES suppliers (id)
 );
+
+# Adding discounted_price column to orderitems table
+# This column will store the price of the item after applying any discounts.
+# And keep the original price in the price column for reference.
+ALTER TABLE orderitems ADD COLUMN discounted_price DECIMAL(10,2);

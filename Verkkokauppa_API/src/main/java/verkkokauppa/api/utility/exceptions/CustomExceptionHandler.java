@@ -14,6 +14,7 @@ public class CustomExceptionHandler {
     // "%s" = paikka, johon luokan nimi asetetaan
     private static final String NOT_FOUND_MESSAGE = "The requested %s was not found.";
     private static final String EMPTY_INPUT_MESSAGE = "Invalid input: empty or null value provided.";
+    private static final String ILLEGAL_RANGE_MESSAGE = "Discount range is not within its legal limits (0 <= discount <= 100).";
 
     private static String notFoundMessage(Class<?> classType) {
         return String.format(NOT_FOUND_MESSAGE, classType.getSimpleName());
@@ -71,5 +72,11 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> handleOrderItemNotFoundException(OrderItemNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(notFoundMessage(OrderItemNotFoundException.class) + "\n" + e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidDiscountException.class)
+    public ResponseEntity<String> handleInvalidDiscountException(InvalidDiscountException e) {
+        return ResponseEntity.status((HttpStatus.BAD_REQUEST))
+                .body(ILLEGAL_RANGE_MESSAGE + "\n" + e.getMessage());
     }
 }

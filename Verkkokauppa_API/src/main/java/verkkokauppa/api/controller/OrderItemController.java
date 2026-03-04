@@ -5,14 +5,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import verkkokauppa.api.dtos.OrderItemDTO;
 import verkkokauppa.api.entity.OrderItem;
 import verkkokauppa.api.service.OrderItemService;
 import verkkokauppa.api.utility.assemblers.OIModelAssembler;
+
+import java.math.BigDecimal;
+
 
 @RestController
 @RequestMapping("/order-items")
@@ -38,5 +38,13 @@ public class OrderItemController {
         return ResponseEntity.ok(
                 assembler.toModel(orderItem)
         );
+    }
+
+    @PatchMapping("/{orderId}/discount")
+    public ResponseEntity<Integer> applyDiscount(
+            @PathVariable Integer orderId,
+            @RequestParam BigDecimal discount) {
+        int updatedCount = orderItemService.applyDiscountToOrderItems(orderId, discount);
+        return ResponseEntity.ok(updatedCount);
     }
 }

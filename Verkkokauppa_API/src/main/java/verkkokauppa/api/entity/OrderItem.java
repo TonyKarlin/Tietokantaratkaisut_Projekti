@@ -8,11 +8,12 @@ import java.math.BigDecimal;
 @Table(name = "orderitems")
 public class OrderItem {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Integer quantity;
     private BigDecimal unitPrice;
+    private BigDecimal discountedPrice;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -45,6 +46,14 @@ public class OrderItem {
 
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 
     public Order getOrder() {
