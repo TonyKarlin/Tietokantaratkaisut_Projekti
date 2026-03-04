@@ -7,30 +7,26 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "orderitems")
 public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @EmbeddedId
+    private OrderItemId id;
 
     private Integer quantity;
     private BigDecimal unitPrice;
     private BigDecimal discountedPrice;
 
     @ManyToOne
+    @MapsId("orderId")
     @JoinColumn(name = "order_id")
     private Order order;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
 
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
+    public OrderItemId getId() { return id; }
+    public void setId(OrderItemId id) { this.id = id; }
 
     public Integer getQuantity() {
         return quantity;

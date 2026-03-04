@@ -1,0 +1,11 @@
+### GET hae kaikki tilausrivit (sivutettu)
+GET http://localhost:8080/order-items
+
+### GET hae tilausrivi order_id:n ja product_id:n perusteella
+GET http://localhost:8080/order-items/1/product/426
+
+### PATCH lisää alennus tilauksen kaikille riveille (discount = prosentti)
+PATCH http://localhost:8080/order-items/1/discount?discount=10
+
+### PATCH poista alennus tilauksen kaikilta riveiltä
+PATCH http://localhost:8080/order-items/1/remove-discount
