@@ -159,4 +159,12 @@ public class Product {
     public void setSupplierId(Integer supplierId) {
         this.supplierId = supplierId;
     }
+
+    public OrderItem getOrderItem() {
+        return orderItem;
+    }
+
+    public void setOrderItem(OrderItem orderItem) {
+        this.orderItem = orderItem;
+    }
 }
