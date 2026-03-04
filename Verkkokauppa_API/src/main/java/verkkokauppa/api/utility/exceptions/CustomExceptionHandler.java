@@ -66,4 +66,10 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(notFoundMessage(AddressNotFoundException.class) + "\n" + e.getMessage());
     }
+
+    @ExceptionHandler(OrderItemNotFoundException.class)
+    public ResponseEntity<String> handleOrderItemNotFoundException(OrderItemNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(notFoundMessage(OrderItemNotFoundException.class) + "\n" + e.getMessage());
+    }
 }

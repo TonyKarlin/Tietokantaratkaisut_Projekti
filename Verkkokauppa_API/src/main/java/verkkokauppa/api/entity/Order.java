@@ -3,6 +3,8 @@ package verkkokauppa.api.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -26,6 +28,9 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "shipping_address_id", nullable = false)
     private CustomerAddress address;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(name = "status")
     private String status;
