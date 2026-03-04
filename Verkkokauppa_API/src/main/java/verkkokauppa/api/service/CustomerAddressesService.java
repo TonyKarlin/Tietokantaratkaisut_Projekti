@@ -72,7 +72,7 @@ public class CustomerAddressesService {
 
     public void delete(Integer id) {
         if (id == null) {
-            throw new AddressNotFoundException(NOT_FOUND_MESSAGE + id);
+            throw new AddressNotFoundException(NOT_FOUND_MESSAGE + null);
         }
         CustomerAddress address = getByIdOrThrow(id);
         Customer customer = address.getCustomer();
