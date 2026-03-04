@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import verkkokauppa.api.dtos.SupplierRequest;
 import verkkokauppa.api.entity.Product;
@@ -131,5 +132,20 @@ public class SupplierService {
 
         supplier.removeProduct(product);
         return supplierRepository.save(supplier);
+    }
+
+    @Transactional
+    public int increaseProductsStockBySupplier(Integer supplierId, Integer amount) {
+        if (supplierId == null) {
+            throw new InvalidArgumentException("Supplier ID cannot be null");
+        }
+        if (amount == null || amount <= 0) {
+            throw new InvalidArgumentException("Amount must be a positive integer");
+        }
+        if (!supplierRepository.existsById(supplierId)) {
+            throw new SupplierNotFoundException("Supplier not found with id: " + supplierId);
+        }
+
+        return productRepository.increaseStockBySupplierId(supplierId, amount);
     }
 }

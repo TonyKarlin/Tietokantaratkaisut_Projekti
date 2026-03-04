@@ -1,5 +1,6 @@
 package verkkokauppa.api.controller;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import verkkokauppa.api.dtos.ProductDTO;
 import verkkokauppa.api.dtos.ProductRequest;
+import verkkokauppa.api.dtos.ProductSearchRequest;
 import verkkokauppa.api.dtos.SupplierDTO;
 import verkkokauppa.api.entity.Product;
 import verkkokauppa.api.service.ProductService;
@@ -113,5 +115,15 @@ public class ProductController {
         LoggerUtil.logInfo("---REMOVING SUPPLIER " + supplierId + " FROM PRODUCT " + productId + "---");
         Product updatedProduct = productService.removeSupplierFromProduct(productId, supplierId);
         return ResponseEntity.ok(new ProductDTO(updatedProduct));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<ProductDTO>> searchProducts(@RequestBody ProductSearchRequest request) {
+        LoggerUtil.logInfo("---SEARCHING PRODUCTS WITH CRITERIA---");
+        List<ProductDTO> results = productService.searchProductsByCriteria(request)
+                .stream()
+                .map(ProductDTO::new)
+                .toList();
+        return ResponseEntity.ok(results);
     }
 }

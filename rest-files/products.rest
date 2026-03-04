@@ -32,3 +32,42 @@ Content-Type: application/json
 
 ### DELETE tuotteen poistaminen
 DELETE http://localhost:8080/products/{id}
+
+### POST dynaaminen haku tuotteille Criteria API:lla (kaikki null = palautetaan kaikki tuotteet)
+POST http://localhost:8080/products/search
+Content-Type: application/json
+
+{
+  "nameContains": null,
+  "minPrice": null,
+  "maxPrice": null,
+  "minStock": null,
+  "categoryId": null,
+  "supplierId": null
+}
+
+### POST haku esimerkki: tuotteet joiden nimessä "TESTITUOTE"
+POST http://localhost:8080/products/search
+Content-Type: application/json
+
+{
+  "nameContains": "Shiny",
+  "minPrice": null,
+  "maxPrice": null,
+  "minStock": null,
+  "categoryId": null,
+  "supplierId": null
+}
+
+### POST haku esimerkki 2: tuotteet hinnalla 10-500, vähintään 5 kpl varastossa
+POST http://localhost:8080/products/search
+Content-Type: application/json
+
+{
+  "nameContains": null,
+  "minPrice": 10.00,
+  "maxPrice": 500.00,
+  "minStock": 5,
+  "categoryId": null,
+  "supplierId": null
+}

@@ -322,3 +322,27 @@ DELETE - poistetaan tuote toimittajalta (N:M-suhde).
 ```HTTP
 DELETE http://localhost:8080/suppliers/{supplierId}/products/{productId}
 ```
+
+PATCH - massaoperaatio: kasvatetaan toimittajan kaikkien tuotteiden `stockQuantity`-arvoa.
+
+```HTTP
+PATCH http://localhost:8080/suppliers/{supplierId}/products/stock/increase?amount=10
+```
+
+## PRODUCTS (Criteria API haku)
+
+POST - dynaaminen haku tuotteille usealla ehdolla (Criteria API).
+
+```HTTP
+POST http://localhost:8080/products/search
+Content-Type: application/json
+
+{
+  "nameContains": "test",
+  "minPrice": 10.00,
+  "maxPrice": 500.00,
+  "minStock": 5,
+  "categoryId": 1,
+  "supplierId": 1
+}
+```

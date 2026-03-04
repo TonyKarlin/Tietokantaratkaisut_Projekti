@@ -1,5 +1,7 @@
 package verkkokauppa.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -7,7 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import verkkokauppa.api.dtos.ProductRequest;
+import verkkokauppa.api.dtos.ProductSearchRequest;
 import verkkokauppa.api.entity.Product;
 import verkkokauppa.api.entity.ProductCategory;
 import verkkokauppa.api.entity.Supplier;
@@ -25,12 +33,14 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
     private final SupplierRepository supplierRepository;
+    private final EntityManager entityManager;
 
     public ProductService(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository,
-            SupplierRepository supplierRepository) {
+            SupplierRepository supplierRepository, EntityManager entityManager) {
         this.productRepository = productRepository;
         this.productCategoryRepository = productCategoryRepository;
         this.supplierRepository = supplierRepository;
+        this.entityManager = entityManager;
     }
 
     public Page<Product> getProductsPage(Pageable pageable) {
@@ -160,5 +170,45 @@ public class ProductService {
 
         product.removeSupplier(supplier);
         return productRepository.save(product);
+    }
+
+    public List<Product> searchProductsByCriteria(ProductSearchRequest request) {
+        if (request == null) {
+            throw new InvalidArgumentException("Search request cannot be null");
+        }
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> productRoot = criteriaQuery.from(Product.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (request.nameContains() != null && !request.nameContains().isBlank()) {
+            predicates.add(criteriaBuilder.like(
+                    criteriaBuilder.lower(productRoot.get("name")),
+                    "%" + request.nameContains().toLowerCase() + "%"
+            ));
+        }
+        if (request.minPrice() != null) {
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(productRoot.get("price"), request.minPrice()));
+        }
+        if (request.maxPrice() != null) {
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(productRoot.get("price"), request.maxPrice()));
+        }
+        if (request.minStock() != null) {
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(productRoot.get("stockQuantity"), request.minStock()));
+        }
+        if (request.categoryId() != null) {
+            predicates.add(criteriaBuilder.equal(productRoot.get("category").get("id"), request.categoryId()));
+        }
+        if (request.supplierId() != null) {
+            predicates.add(criteriaBuilder.equal(productRoot.get("supplierId"), request.supplierId()));
+        }
+
+        criteriaQuery.select(productRoot)
+                .where(predicates.toArray(Predicate[]::new))
+                .orderBy(criteriaBuilder.asc(productRoot.get("id")));
+
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 }

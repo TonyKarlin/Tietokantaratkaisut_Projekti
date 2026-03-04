@@ -7,7 +7,7 @@ GET http://localhost:8080/suppliers
 GET http://localhost:8080/suppliers?page=0&size=10
 
 ### GET haetaan supplier id:n mukaan
-GET http://localhost:8080/suppliers/{id}
+GET http://localhost:8080/suppliers/2
 
 ### POST lisätään uusi supplier id:n mukaan
 POST http://localhost:8080/suppliers
@@ -33,3 +33,22 @@ Content-Type: application/json
 
 ### DELETE poistetaan supplier id:n perusteella.
 DELETE http://localhost:8080/suppliers/{id}
+
+### --- MASSA-OPERAATIOT: Varaston hallinta ---
+
+### POST yhdistetään tuotteita supplieriin (ennen kuin voit muokata varastoa)
+POST http://localhost:8080/suppliers/1/products/1
+
+### GET nähdään toimittajan kaikkien tuotteiden varaston ennen muutosta
+GET http://localhost:8080/suppliers/1/products/stock
+
+### PATCH massaoperaatio: kasvatetaan toimittajan kaikkien tuotteiden varastoa (JPQL bulk UPDATE)
+PATCH http://localhost:8080/suppliers/1/products/stock/increase?amount=10
+
+### GET nähdään toimittajan tuotteiden varaston JÄLKEEN muutosta
+GET http://localhost:8080/suppliers/1/products/stock
+
+
+### POST yhdistetään tuotteita supplier 1:lle
+
+POST http://localhost:8080/suppliers/1/products/3

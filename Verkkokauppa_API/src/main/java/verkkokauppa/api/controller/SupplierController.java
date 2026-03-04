@@ -11,11 +11,13 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import verkkokauppa.api.dtos.ProductDTO;
@@ -113,5 +115,24 @@ public class SupplierController {
         LoggerUtil.logInfo("---REMOVING PRODUCT " + productId + " FROM SUPPLIER " + supplierId + "---");
         Supplier updatedSupplier = supplierService.removeProductFromSupplier(supplierId, productId);
         return ResponseEntity.ok(new SupplierDTO(updatedSupplier));
+    }
+
+    @GetMapping("/{supplierId}/products/stock")
+    public ResponseEntity<Set<ProductDTO>> getSupplierProductsStock(@PathVariable Integer supplierId) {
+        LoggerUtil.logInfo("---FETCHING STOCK FOR SUPPLIER " + supplierId + "---");
+        Set<ProductDTO> products = supplierService.getSupplierProducts(supplierId)
+                .stream()
+                .map(ProductDTO::new)
+                .collect(Collectors.toSet());
+        return ResponseEntity.ok(products);
+    }
+
+    @PatchMapping("/{supplierId}/products/stock/increase")
+    public ResponseEntity<Integer> increaseStockBySupplier(
+            @PathVariable Integer supplierId,
+            @RequestParam Integer amount) {
+        LoggerUtil.logInfo("---INCREASING STOCK FOR SUPPLIER " + supplierId + " BY " + amount + "---");
+        int updatedRows = supplierService.increaseProductsStockBySupplier(supplierId, amount);
+        return ResponseEntity.ok(updatedRows);
     }
 }
