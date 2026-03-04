@@ -255,6 +255,58 @@ Content-Type: application/json
 }
 ```
 
+PATCH - päivitä tilausten statukset (bulk).
+
+```HTTP
+PATCH http://localhost:8080/orders/batch/status
+Content-Type: application/json
+
+{
+  "orderIds": [100, 1000, 10000],
+  "fromStatus": "NEW",
+  "toStatus": "PENDING"
+}
+```
+
+PATCH - päivitä asiakkaan tilausten statukset (bulk by customer).
+
+```HTTP
+PATCH http://localhost:8080/orders/batch/status/by-customer
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "fromStatus": "NEW",
+  "toStatus": "PENDING"
+}
+```
+
+## ORDER ITEMS
+
+GET - haetaan kaikki tilausrivit (sivutettu).
+
+```HTTP
+GET http://localhost:8080/order-items
+```
+
+GET - haetaan tilausrivi order_id:n ja product_id:n perusteella.
+
+```HTTP
+GET http://localhost:8080/order-items/{orderId}/product/{productId}
+```
+
+PATCH - lisää alennus tilauksen kaikille riveille (discount = prosentti).
+
+```HTTP
+PATCH http://localhost:8080/order-items/{orderId}/discount?discount=10
+```
+
+PATCH - poista alennus tilauksen kaikilta riveiltä.
+
+```HTTP
+PATCH http://localhost:8080/order-items/{orderId}/remove-discount
+```
+
 ## SUPPLIERS
 
 GET - haetaan kaikki toimittajat (50 per sivu).
