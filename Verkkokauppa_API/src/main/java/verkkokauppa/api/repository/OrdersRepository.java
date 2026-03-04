@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import verkkokauppa.api.entity.Order;
+import verkkokauppa.api.repository.custom_repositories.OrdersRepositoryCustom;
 
 import java.util.Optional;
 
-public interface OrdersRepository extends JpaRepository<Order, Integer> {
+public interface OrdersRepository extends JpaRepository<Order, Integer>, OrdersRepositoryCustom {
     @Query("""
             select o
             from Order o

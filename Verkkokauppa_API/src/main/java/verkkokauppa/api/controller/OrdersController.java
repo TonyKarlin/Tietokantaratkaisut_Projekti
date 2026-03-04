@@ -7,6 +7,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import verkkokauppa.api.dtos.BatchStatusByCustomerRequest;
+import verkkokauppa.api.dtos.BatchStatusRequest;
 import verkkokauppa.api.dtos.OrderDTO;
 import verkkokauppa.api.dtos.OrderRequest;
 import verkkokauppa.api.entity.Order;
@@ -14,27 +16,29 @@ import verkkokauppa.api.service.OrdersService;
 import verkkokauppa.api.utility.LoggerUtil;
 import verkkokauppa.api.utility.assemblers.OrderModelAssembler;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/orders")
 public class OrdersController {
-    private final OrdersService service;
+    private final OrdersService ordersService;
     private final OrderModelAssembler assembler;
 
-    public OrdersController(OrdersService service, OrderModelAssembler assembler) {
-        this.service = service;
+    public OrdersController(OrdersService ordersService, OrderModelAssembler assembler) {
+        this.ordersService = ordersService;
         this.assembler = assembler;
     }
 
     @GetMapping
     public ResponseEntity<Page<OrderDTO>> getAllOrders(@PageableDefault(size = 50) Pageable pageable) {
-        Page<OrderDTO> page = service.getOrdersPage(pageable)
+        Page<OrderDTO> page = ordersService.getOrdersPage(pageable)
                 .map(OrderDTO::new);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<OrderDTO>> getOrderById(@PathVariable Integer id) {
-        return service.getOrderById(id)
+        return ordersService.getOrderById(id)
                 .map(assembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -45,7 +49,7 @@ public class OrdersController {
             @PathVariable Integer id,
             @PageableDefault(size = 50) Pageable pageable
     ) {
-        Page<OrderDTO> page = service.getOrdersByCustomer(id, pageable)
+        Page<OrderDTO> page = ordersService.getOrdersByCustomer(id, pageable)
                 .map(OrderDTO::new);
         return ResponseEntity.ok(page);
     }
@@ -54,10 +58,31 @@ public class OrdersController {
     @PostMapping
     public ResponseEntity<OrderDTO> postOrder(@RequestBody OrderRequest request) {
         LoggerUtil.logInfo("---ADDING NEW ORDER: " + request.status() + "---");
-        Order savedOrder = service.postOrder(request);
+        Order savedOrder = ordersService.postOrder(request);
         LoggerUtil.logInfo("---ORDER ADDED SUCCESSFULLY WITH STATUS: " + request.status() + "---");
         EntityModel<OrderDTO> dtoModel = assembler.toModel(savedOrder);
         return ResponseEntity.created(dtoModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(dtoModel.getContent());
     }
+
+    @PatchMapping("/batch/status")
+    public ResponseEntity<Map<String, Object>> bulkUpdateStatus(
+            @RequestBody BatchStatusRequest request) {
+        int updated = ordersService.bulkTransitionStatus(
+                request.getOrderIds(),
+                request.getFromStatus(),
+                request.getToStatus());
+        return ResponseEntity.ok(Map.of("updatedCount", updated));
+    }
+
+    @PatchMapping("/batch/status/by-customer")
+    public ResponseEntity<Map<String, Object>> bulkUpdateStatusByCustomer(
+            @RequestBody BatchStatusByCustomerRequest request) {
+        int updated = ordersService.bulkTransitionStatusByCustomer(
+                request.getCustomerId(),
+                request.getFromStatus(),
+                request.getToStatus());
+        return ResponseEntity.ok(Map.of("updatedCount", updated));
+    }
+
 }

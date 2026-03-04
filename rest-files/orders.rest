@@ -18,3 +18,23 @@ Content-Type: application/json
   "shippingAddressId": 1,
   "status": "NEW"
 }
+
+### PATCH päivitä tilausten statukset (bulk)
+PATCH http://localhost:8080/orders/batch/status
+Content-Type: application/json
+
+{
+  "orderIds": [100, 1000, 10000],
+  "fromStatus": "NEW",
+  "toStatus": "PENDING"
+}
+
+### PATCH päivitä asiakkaan tilausten statukset (bulk by customer)
+PATCH http://localhost:8080/orders/batch/status/by-customer
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "fromStatus": "NEW",
+  "toStatus": "PENDING"
+}
