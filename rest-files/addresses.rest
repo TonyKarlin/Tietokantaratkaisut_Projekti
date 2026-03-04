@@ -2,14 +2,14 @@
 GET http://localhost:8080/customer-addresses
 
 ### GET hae osoite id:n perusteella
-GET http://localhost:8080/customer-addresses/100002
+GET http://localhost:8080/customer-addresses/1
 
 ### POST lisää uusi osoite
 POST http://localhost:8080/customer-addresses
 Content-Type: application/json
 
 {
-    "customerId": 100005,
+    "customerId": 1,
     "street": "Uudenmaankatu 10",
     "postalCode": "00120",
     "city": "Helsinki",
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### PUT päivittää osoitteen tietoja
-PUT http://localhost:8080/customer-addresses/3
+PUT http://localhost:8080/customer-addresses/2
 Content-Type: application/json
 
 {

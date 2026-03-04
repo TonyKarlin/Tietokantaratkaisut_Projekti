@@ -47,4 +47,10 @@ public class OrderItemController {
         int updatedCount = orderItemService.applyDiscountToOrderItems(orderId, discount);
         return ResponseEntity.ok(updatedCount);
     }
+
+    @PatchMapping("/{orderId}/remove-discount")
+    public ResponseEntity<Integer> removeDiscount(@PathVariable Integer orderId) {
+        int updatedCount = orderItemService.removeDiscountFromOrderItems(orderId);
+        return ResponseEntity.ok(updatedCount);
+    }
 }

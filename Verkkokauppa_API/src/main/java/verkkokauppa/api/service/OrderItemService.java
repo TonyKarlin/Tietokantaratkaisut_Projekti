@@ -46,4 +46,10 @@ public class OrderItemService {
         }
         throw new InvalidDiscountException("Discount must be between 0 and 100, got: " + discount);
     }
+
+    @Transactional
+    public int removeDiscountFromOrderItems(Integer orderId) {
+        if (orderId == null) throw new OrderNotFoundException("Order id is null.");
+        return repository.removeDiscountFromOrder(orderId);
+    }
 }

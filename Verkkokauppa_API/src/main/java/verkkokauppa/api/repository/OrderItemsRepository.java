@@ -14,4 +14,8 @@ public interface OrderItemsRepository extends JpaRepository<OrderItem, Integer> 
     @Query("UPDATE OrderItem oi SET oi.discountedPrice = oi.unitPrice * :multiplier WHERE oi.order.id = :orderId")
     int applyDiscountToOrder(@Param("orderId") Integer id,
                              @Param("multiplier") BigDecimal multiplier);
+
+    @Modifying
+    @Query("UPDATE OrderItem  oi SET oi.discountedPrice = null WHERE oi.order.id = :orderId")
+    int removeDiscountFromOrder(@Param("orderId") Integer orderId);
 }
