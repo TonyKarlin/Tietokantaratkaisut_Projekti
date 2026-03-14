@@ -12,7 +12,7 @@ DB_USER={käyttäjä}
 DB_PASSWORD={salasana}
 ```
 
-Tyypillisen käyttäjän luonti:
+Tietoturvan merkeissä, sovelluksessa käytettävän käyttäjän luonti:
 
 ```sql
 USE `tkr-projekti`;
@@ -23,6 +23,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE, ALTER, CREATE, DROP, INDEX ON `tkr-projekt
 
 FLUSH PRIVILEGES;
 ```
+
+Tietokannassa on käytetty `schema_populated_dump` skeemaa. Ja tämän lisäksi erillisenä ajettu `schema-changes.sql` tiedostoa, joka sisältää tarvittavat muutokset tietokantaan.
+
+`schema-changes.sql` tiedosto löytyy schema-kansiosta.
 
 ## Endpoints
 
