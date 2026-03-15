@@ -23,14 +23,15 @@ Spring Boot REST API verkkokaupan hallintaan (asiakkaat, tuotteet, tilaukset, to
   - Jos supplierin linkitetyissä tuotteissa on stock alle 10, sallitaan vain yksi samanaikainen stock update kyseiselle supplierille.
   - Rinnakkainen toinen pyyntö palauttaa HTTP 423 Locked.
 - Tietokanta
-  - Indeksit (`schema/indexing.sql`)
-  - Näkymät (`schema/views.sql`)
-  - Liipaisin (`schema/trigger.sql`)
+  - Indeksit (`schema/individual_changes/indexing.sql`)
+  - Näkymät (`schema/individual_changes/views.sql`)
+  - Liipaisin (`schema/individual_changes/trigger.sql`)
 
 ## Ohjeet sovelluksen käyttöön
 
 - Projektissa käytetään pohjana kurssilta saatu `schema_populated_dump.sql`
-  - Sekä suorita `/schema`-kansiosta löytyvät `.sql`-tiedostot, jotta tarvittavat muutokset saadaan tietokantaan.
+  - Sekä suorita `/schema`-kansiosta löytyvä `db_schema.sql`, joka sisältää kaikki tietokannan puolelle tarvittavat muutokset.
+  - `db_schema.sql` on siis kooste `individual_changes`-kansion sisällöstä, missä kaikki muutokset on yhdistetty.
 - Luo tietokantakäyttäjä, esimerkki alempana.
 - Luo `.env` tiedosto `Verkkokauppa_API` kansion sisälle, käyttäen `.env.template` tiedostoa mallina.
 - Aseta `.env` tiedostoon tietokannan nimi, käyttäjä ja salasana.
