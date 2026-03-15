@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### PUT tuotteen päivittäminen
-PUT http://localhost:8080/products/{id}
+PUT http://localhost:8080/products/6
 Content-Type: application/json
 
 {

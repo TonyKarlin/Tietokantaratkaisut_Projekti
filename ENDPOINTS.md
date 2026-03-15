@@ -17,10 +17,12 @@ GET - haetaan kaikki asiakkaat (50 per sivu).
 ```HTTP
 GET http://localhost:8080/customers
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "content": [
@@ -47,10 +49,12 @@ GET - haetaan asiakas id:n perusteella.
 ```HTTP
 GET http://localhost:8080/customers/{id}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "_links": {
@@ -81,10 +85,12 @@ Content-Type: application/json
   "phoneNumber": "1234567890" // valinnainen
 }
 ```
+
 ```HTTP
 HTTP/1.1 201 Created
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "email": "test@example.com",
@@ -107,10 +113,12 @@ Content-Type: application/json
   "phoneNumber": "0987654321"
 }
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "email": "updated@example.com",
@@ -126,9 +134,11 @@ DELETE - asiakkaan poistaminen id:n perusteella.
 ```HTTP
 DELETE http://localhost:8080/customers/{id}
 ```
+
 ```HTTP
 HTTP/1.1 204 No Content
 ```
+
 ```JSON
 <Response body is empty>
 ```
@@ -140,10 +150,12 @@ GET - haetaan kaikki osoitteet.
 ```HTTP
 GET http://localhost:8080/customer-addresses
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "content": [
@@ -164,10 +176,12 @@ GET - haetaan osoite id:n perusteella.
 ```HTTP
 GET http://localhost:8080/customer-addresses/{id}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "_links": {
@@ -201,10 +215,12 @@ Content-Type: application/json
   "country": "Finland"
 }
 ```
+
 ```HTTP
 HTTP/1.1 201 Created
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "city": "Helsinki",
@@ -230,10 +246,12 @@ Content-Type: application/json
   "country": "Finland"
 }
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "city": "Helsinki",
@@ -250,9 +268,11 @@ DELETE - osoitteen poistaminen id:n perusteella.
 ```HTTP
 DELETE http://localhost:8080/customer-addresses/{id}
 ```
+
 ```HTTP
 HTTP/1.1 204 No Content
 ```
+
 ```JSON
 <Response body is empty>
 ```
@@ -264,10 +284,12 @@ GET - haetaan kaikki toimittajaosoitteet (50 per sivu).
 ```HTTP
 GET http://localhost:8080/supplieraddresses
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "content": [
@@ -296,10 +318,12 @@ GET - haetaan toimittajaosoite id:n perusteella.
 ```HTTP
 GET http://localhost:8080/supplieraddresses/{id}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "_links": {
@@ -319,17 +343,17 @@ Content-Type: application/hal+json
 }
 ```
 
-
-
 GET - haetaan kaikki tietyn toimittajan osoitteet supplierId:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/supplieraddresses/supplier/{supplierId}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 [
   {
@@ -357,10 +381,12 @@ Content-Type: application/json
   "country": "Finland"
 }
 ```
+
 ```HTTP
 HTTP/1.1 201 Created
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "city": "Helsinki",
@@ -386,10 +412,12 @@ Content-Type: application/json
   "country": "Finland"
 }
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "city": "Espoo",
@@ -406,9 +434,11 @@ DELETE - toimittajaosoitteen poistaminen id:n perusteella.
 ```HTTP
 DELETE http://localhost:8080/supplieraddresses/{id}
 ```
+
 ```HTTP
 HTTP/1.1 204 No Content
 ```
+
 ```JSON
 <Response body is empty>
 ```
@@ -421,10 +451,65 @@ GET - haetaan kaikki tuotteet.
 GET http://localhost:8080/products
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+
+```JSON
+{
+  "content": [
+    {
+      "categoryId": 2,
+      "description": "Her fall move current him.",
+      "id": 1,
+      "name": "Super Bug 360",
+      "price": 22.22,
+      "stockQuantity": 136,
+      "supplierId": 35
+    },
+    {
+      "categoryId": 10,
+      "description": "Score million throw thing instead ball line think.",
+      "id": 2,
+      "name": "Happy Pack 382",
+      "price": 546.08,
+      "stockQuantity": 408,
+      "supplierId": 16
+    }
+  ]
+}
+```
+
 GET - haetaan tuote id:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/products/{id}
+```
+
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/products/9"
+    },
+    "products": {
+      "href": "http://localhost:8080/products"
+    }
+  },
+  "categoryId": 7,
+  "description": "Tonight style share thus study wrong interest.",
+  "id": 9,
+  "name": "Swift Pad 577",
+  "price": 526.56,
+  "stockQuantity": 151,
+  "supplierId": 54
+}
 ```
 
 POST - uuden tuotteen lisääminen.
@@ -440,6 +525,23 @@ Content-Type: application/json
   "price": 100.50,
   "stockQuantity": 10,
   "supplierId": 1
+}
+```
+
+```HTTP
+HTTP/1.1 201 Created
+Content-Type: application/json
+```
+
+```JSON
+{
+  "categoryId": 6,
+  "description": "TESTITESTI",
+  "id": 1001,
+  "name": "TESTITUOTE",
+  "price": 100.50,
+  "stockQuantity": 10,
+  "supplierId": null
 }
 ```
 
@@ -459,15 +561,41 @@ Content-Type: application/json
 }
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+{
+  "categoryId": 1,
+  "description": "PÄIVITETTY KUVAUS",
+  "id": 6,
+  "name": "PÄIVITETTY TUOTE",
+  "price": 150.75,
+  "stockQuantity": 20,
+  "supplierId": null
+}
+```
+
 DELETE - tuotteen poistaminen id:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/products/{id}
 ```
 
+```HTTP
+HTTP/1.1 204 No Content
+```
+
+```JSON
+<Response body is empty>
+```
+
 ### N:M-SUHDE: Product ↔ Supplier
 
-GET - haetaan tuotteen kaikki toimittajat (N:M-suhde). Alussa saattaa olla vastauksena tyhjä lista, koska tuotetta ja jälleenmyyjää ei ole linkitetty POST metodin kautta, mikä on tässä alempana.
+GET - haetaan tuotteen kaikki toimittajat (N:M-suhde). Alussa saattaa olla vastauksena tyhjä lista, koska tuotetta ja
+jälleenmyyjää ei ole linkitetty POST metodin kautta, mikä on tässä alempana.
 
 ```HTTP
 GET http://localhost:8080/products/{id}/suppliers
