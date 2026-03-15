@@ -22,9 +22,13 @@ Spring Boot REST API verkkokaupan hallintaan (asiakkaat, tuotteet, tilaukset, to
 - Lukitus (Supplier stock update)
   - Jos supplierin linkitetyissä tuotteissa on stock alle 10, sallitaan vain yksi samanaikainen stock update kyseiselle supplierille.
   - Rinnakkainen toinen pyyntö palauttaa HTTP 423 Locked.
+- Tietokanta
+  - Indeksit (`schema/indexing.sql`)
+  - Näkymät (`schema/views.sql`)
 
 ## Ohjeet sovelluksen käyttöön
 
+- [TIETOKANTA KÄYTTÖÖN OTTO PUUTTUU VIELÄ]
 - Luo tietokantakäyttäjä, esimerkki alempana.
 - Luo `.env` tiedosto `Verkkokauppa_API` kansion sisälle, käyttäen `.env.template` tiedostoa mallina.
 - Aseta `.env` tiedostoon tietokannan nimi, käyttäjä ja salasana.
