@@ -1,0 +1,8 @@
+# Order totals näkymän REST-metodit
+# Näkymään sijoittuu vain lukumetodeja, jotka hakevat tietoa order_totals-näkymästä.
+
+### GET hae order totals orderId:n perusteella
+GET http://localhost:8080/order-totals/1
+
+### GET hae order totals customerId:n perusteella
+GET http://localhost:8080/order-totals/by-customer/2
