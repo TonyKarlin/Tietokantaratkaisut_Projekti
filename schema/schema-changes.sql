@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS contacts;
+DROP TABLE IF EXISTS customeraddresses;
 
 CREATE TABLE addresses
 (
