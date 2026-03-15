@@ -29,7 +29,8 @@ Spring Boot REST API verkkokaupan hallintaan (asiakkaat, tuotteet, tilaukset, to
 
 ## Ohjeet sovelluksen käyttöön
 
-- [TIETOKANTA KÄYTTÖÖN OTTO PUUTTUU VIELÄ]
+- Projektissa käytetään pohjana kurssilta saatu `schema_populated_dump.sql`
+  - Sekä suorita `/schema`-kansiosta löytyvät `.sql`-tiedostot, jotta tarvittavat muutokset saadaan tietokantaan.
 - Luo tietokantakäyttäjä, esimerkki alempana.
 - Luo `.env` tiedosto `Verkkokauppa_API` kansion sisälle, käyttäen `.env.template` tiedostoa mallina.
 - Aseta `.env` tiedostoon tietokannan nimi, käyttäjä ja salasana.
@@ -61,6 +62,12 @@ FLUSH PRIVILEGES;
 
 Alempana projektin endpointit kuvattuna suppeasti. Tarkemmat tiedot endpointeista löytyvät [ENDPOINTS.md](/ENDPOINTS.md) tiedostosta.
 
+### Index
+
+| Metodi | Endpoint                 |       |
+| :----- | :----------------------- | :---- |
+| GET    | <http://localhost:8080/> | Index |
+
 ### Customers
 
 | Metodi | Endpoint                               |                                     |
@@ -80,6 +87,17 @@ Alempana projektin endpointit kuvattuna suppeasti. Tarkemmat tiedot endpointeist
 | POST   | <http://localhost:8080/customer-addresses>      | Uuden osoitteen lisääminen          |
 | PUT    | <http://localhost:8080/customer-addresses/{id}> | Yksittäisen osoitteen päivittäminen |
 | DELETE | <http://localhost:8080/customer-addresses/{id}> | Yksittäisen osoitteen poistaminen   |
+
+### Supplier Addresses
+
+| Metodi | Endpoint                                                        |                                          |
+| :----- | :-------------------------------------------------------------- | :--------------------------------------- |
+| GET    | <http://localhost:8080/supplieraddresses>                       | Toimittajaosoitteiden hakeminen          |
+| GET    | <http://localhost:8080/supplieraddresses/{id}>                  | Yksittäisen toimittajaosoitteen haku     |
+| GET    | <http://localhost:8080/supplieraddresses/supplier/{supplierId}> | Toimittajan osoitteiden haku             |
+| POST   | <http://localhost:8080/supplieraddresses>                       | Uuden toimittajaosoitteen lisääminen     |
+| PUT    | <http://localhost:8080/supplieraddresses/{id}>                  | Yksittäisen toimittajaosoitteen päivitys |
+| DELETE | <http://localhost:8080/supplieraddresses/{id}>                  | Yksittäisen toimittajaosoitteen poisto   |
 
 ### Products
 
@@ -122,7 +140,7 @@ Alempana projektin endpointit kuvattuna suppeasti. Tarkemmat tiedot endpointeist
 ### Order Items
 
 | Metodi | Endpoint                                                           |                                           |
-|:-------|:-------------------------------------------------------------------|:------------------------------------------|
+| :----- | :----------------------------------------------------------------- | :---------------------------------------- |
 | GET    | <http://localhost:8080/order-items>                                | Tilausrivien hakeminen                    |
 | GET    | <http://localhost:8080/order-items/{orderId}/product/{productId}>  | Yksittäisen tilausrivin haku              |
 | POST   | <http://localhost:8080/order-items>                                | Uuden tilausrivin lisääminen              |
@@ -134,7 +152,7 @@ Alempana projektin endpointit kuvattuna suppeasti. Tarkemmat tiedot endpointeist
 ### Order Totals (NÄKYMÄ)
 
 | Metodi | Endpoint                                                      |                                              |
-|:-------|:--------------------------------------------------------------|:---------------------------------------------|
+| :----- | :------------------------------------------------------------ | :------------------------------------------- |
 | GET    | <http://localhost:8080/order-totals/{orderId}>                | Tilauksen kokonaistiedot näkymästä           |
 | GET    | <http://localhost:8080/order-totals/by-customer/{customerId}> | Asiakkaan tilausten kokonaistiedot näkymästä |
 
@@ -150,4 +168,5 @@ Alempana projektin endpointit kuvattuna suppeasti. Tarkemmat tiedot endpointeist
 | GET    | <http://localhost:8080/suppliers/{id}/products>                                  | Toimittajan tuotteiden haku (N:M-suhde)                   |
 | POST   | <http://localhost:8080/suppliers/{supplierId}/products/{productId}>              | Tuotteen lisääminen toimittajalle (N:M-suhde)             |
 | DELETE | <http://localhost:8080/suppliers/{supplierId}/products/{productId}>              | Tuotteen poistaminen toimittajalta (N:M-suhde)            |
+| GET    | <http://localhost:8080/suppliers/{supplierId}/products/stock>                    | Toimittajan tuotteiden varastotietojen haku               |
 | PATCH  | <http://localhost:8080/suppliers/{supplierId}/products/stock/increase?amount=10> | Toimittajan tuotteiden varaston kasvatus (massaoperaatio) |

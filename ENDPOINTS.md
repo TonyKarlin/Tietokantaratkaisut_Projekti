@@ -2,6 +2,14 @@
 
 Projektin endpointit:
 
+## INDEX
+
+GET - Index
+
+```HTTP
+GET http://localhost:8080/
+```
+
 ## CUSTOMERS
 
 GET - haetaan kaikki asiakkaat (50 per sivu).
@@ -96,6 +104,62 @@ DELETE - osoitteen poistaminen id:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/customer-addresses/{id}
+```
+
+## SUPPLIER ADDRESSES
+
+GET - haetaan kaikki toimittajaosoitteet (50 per sivu).
+
+```HTTP
+GET http://localhost:8080/supplieraddresses
+```
+
+GET - haetaan toimittajaosoite id:n perusteella.
+
+```HTTP
+GET http://localhost:8080/supplieraddresses/{id}
+```
+
+GET - haetaan kaikki tietyn toimittajan osoitteet supplierId:n perusteella.
+
+```HTTP
+GET http://localhost:8080/supplieraddresses/supplier/{supplierId}
+```
+
+POST - uuden toimittajaosoitteen lisääminen.
+
+```HTTP
+POST http://localhost:8080/supplieraddresses
+Content-Type: application/json
+
+{
+  "supplierId": 1,
+  "street": "Teollisuustie 5",
+  "postalCode": "33100",
+  "city": "Tampere",
+  "country": "Finland"
+}
+```
+
+PUT - toimittajaosoitteen tietojen päivittäminen id:n perusteella.
+
+```HTTP
+PUT http://localhost:8080/supplieraddresses/{id}
+Content-Type: application/json
+
+{
+  "supplierId": 1,
+  "street": "Satamakatu 12",
+  "postalCode": "00160",
+  "city": "Helsinki",
+  "country": "Finland"
+}
+```
+
+DELETE - toimittajaosoitteen poistaminen id:n perusteella.
+
+```HTTP
+DELETE http://localhost:8080/supplieraddresses/{id}
 ```
 
 ## PRODUCTS
@@ -252,6 +316,21 @@ Content-Type: application/json
   "deliveryDate": "2024-06-05T00:00:00",
   "shippingAddressId": 1,
   "status": "NEW"
+}
+```
+
+PUT - päivitetään tilauksen tiedot id:n perusteella.
+
+```HTTP
+PUT http://localhost:8080/orders/{id}
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "orderDate": "2024-06-02T00:00:00",
+  "deliveryDate": "2024-06-06T00:00:00",
+  "shippingAddressId": 1,
+  "status": "PENDING"
 }
 ```
 
@@ -423,6 +502,12 @@ DELETE - poistetaan tuote toimittajalta (N:M-suhde).
 
 ```HTTP
 DELETE http://localhost:8080/suppliers/{supplierId}/products/{productId}
+```
+
+GET - haetaan toimittajan tuotteiden varastotiedot.
+
+```HTTP
+GET http://localhost:8080/suppliers/{supplierId}/products/stock
 ```
 
 PATCH - massaoperaatio: kasvatetaan toimittajan kaikkien tuotteiden `stockQuantity`-arvoa.
