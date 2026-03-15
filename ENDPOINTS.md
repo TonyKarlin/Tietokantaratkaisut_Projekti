@@ -879,11 +879,56 @@ GET - haetaan kaikki tilausrivit (sivutettu).
 ```HTTP
 GET http://localhost:8080/order-items
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "content": [
+    {
+      "orderId": 1,
+      "productId": 6,
+      "quantity": 2,
+      "unitPrice": 316.47,
+      "discountedPrice": 284.82
+    },
+    {
+      "orderId": 1,
+      "productId": 426,
+      "quantity": 2,
+      "unitPrice": 736.44,
+      "discountedPrice": 662.80
+    }
+  ]
+}
+```
 
 GET - haetaan tilausrivi order_id:n ja product_id:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/order-items/{orderId}/product/{productId}
+```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/order-items/1/product/426"
+    },
+    "orderItems": {
+      "href": "http://localhost:8080/order-items"
+    }
+  },
+  "orderId": 1,
+  "productId": 426,
+  "quantity": 2,
+  "unitPrice": 736.44,
+  "discountedPrice": 662.80
+}
 ```
 
 PATCH - lisää alennus tilauksen kaikille riveille (discount = prosentti).
@@ -891,11 +936,25 @@ PATCH - lisää alennus tilauksen kaikille riveille (discount = prosentti).
 ```HTTP
 PATCH http://localhost:8080/order-items/{orderId}/discount?discount=10
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+3
+```
 
 PATCH - poista alennus tilauksen kaikilta riveiltä.
 
 ```HTTP
 PATCH http://localhost:8080/order-items/{orderId}/remove-discount
+```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+3
 ```
 
 POST - luo uusi tilausrivi.
@@ -911,6 +970,19 @@ Content-Type: application/json
   }
 }
 ```
+```HTTP
+HTTP/1.1 201 Created
+Content-Type: application/json
+```
+```JSON
+{
+  "orderId": 200000,
+  "productId": 1,
+  "quantity": 2,
+  "unitPrice": 22.22,
+  "discountedPrice": null
+}
+```
 
 PUT - päivitä tilausrivin tietoja (esim. määrä) orderId:n ja productId:n perusteella.
 
@@ -921,11 +993,30 @@ Content-Type: application/json
   "amount": 6
 }
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+{
+  "orderId": 200004,
+  "productId": 1,
+  "quantity": 6,
+  "unitPrice": 22.22,
+  "discountedPrice": null
+}
+```
 
 DELETE - poista tilausrivi orderId:n ja productId:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/order-items/{orderId}/product/{productId}
+```
+```HTTP
+HTTP/1.1 204 No Content
+```
+```JSON
+<Response body is empty>
 ```
 
 ## ORDER TOTALS (NÄKYMÄ)

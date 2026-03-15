@@ -15,7 +15,7 @@ POST http://localhost:8080/order-items
 Content-Type: application/json
 
 {
-  "orderId": 200004,
+  "orderId": 200000,
   "productId": 1,
   "quantity": {
     "amount": 2
@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ### PUT - päivitä tilausrivi
-PUT http://localhost:8080/order-items/1/product/1
+PUT http://localhost:8080/order-items/200004/product/1
 Content-Type: application/json
 
 {
