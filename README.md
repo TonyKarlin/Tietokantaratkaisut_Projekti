@@ -2,9 +2,28 @@
 
 `Tony Karlin, Onni Kivinen`
 
-## Tietokanta info
+Spring Boot REST API verkkokaupan hallintaan (asiakkaat, tuotteet, tilaukset, toimittajat, osoitteet). Projekti luotu osana `Tietokantaratkaisut`-kurssia.
 
-Pikaohjeet:
+## Sisältö
+
+- Teknologiat
+  - Java 21 + Spring Boot 4
+  - Spring WebMVC, Spring Data JPA, HATEOAS
+  - MariaDB
+- Arkkitehtuuri
+  - Controller -> Service -> Repository -> Entity.
+  - DTOt
+  - HATEOAS- vastauksien luonti Assemblereilla
+  - Custom-poikkeukset
+- Endpointit (lisätietoa alempana...)
+  - CRUD metodit kaikille tarvittaville tietokannan tauluille
+  - N:M-suhde Product <-> Supplier
+  - Bulk päivitykset tilausten statuspäivityksiin ja toimittajien tuotteiden varaston kasvattamiseen
+- Lukitus (Supplier stock update)
+  - Jos supplierin linkitetyissä tuotteissa on stock alle 10, sallitaan vain yksi samanaikainen stock update kyseiselle supplierille.
+  - Rinnakkainen toinen pyyntö palauttaa HTTP 423 Locked.
+
+## Ohjeet sovelluksen käyttöön
 
 - Luo tietokantakäyttäjä, esimerkki alempana.
 - Luo `.env` tiedosto `Verkkokauppa_API` kansion sisälle, käyttäen `.env.template` tiedostoa mallina.

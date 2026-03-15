@@ -2,6 +2,9 @@ package verkkokauppa.api.service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +18,17 @@ import verkkokauppa.api.repository.ProductRepository;
 import verkkokauppa.api.repository.SupplierRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.ProductNotFoundException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.SupplierLockedException;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.SupplierNotFoundException;
 
 @Service
 public class SupplierService {
 
+    private static final int LOW_STOCK_THRESHOLD = 10;
+
     private final SupplierRepository supplierRepository;
     private final ProductRepository productRepository;
+    private final ConcurrentMap<Integer, ReentrantLock> supplierStockUpdateLocks = new ConcurrentHashMap<>();
 
     public SupplierService(SupplierRepository supplierRepository, ProductRepository productRepository) {
         this.supplierRepository = supplierRepository;
@@ -146,6 +153,27 @@ public class SupplierService {
             throw new SupplierNotFoundException("Supplier not found with id: " + supplierId);
         }
 
-        return productRepository.increaseStockBySupplierId(supplierId, amount);
+        boolean hasLowStockProducts = productRepository
+                .countLowStockProductsBySupplierId(supplierId, LOW_STOCK_THRESHOLD) > 0;
+
+        if (!hasLowStockProducts) {
+            return productRepository.increaseStockBySupplierId(supplierId, amount);
+        }
+
+        ReentrantLock lock = supplierStockUpdateLocks
+                .computeIfAbsent(supplierId, key -> new ReentrantLock());
+
+        if (!lock.tryLock()) {
+            throw new SupplierLockedException(
+                    "Supplier " + supplierId
+                    + " has low-stock products (< " + LOW_STOCK_THRESHOLD
+                    + "). Only one stock update is allowed at a time.");
+        }
+
+        try {
+            return productRepository.increaseStockBySupplierId(supplierId, amount);
+        } finally {
+            lock.unlock();
+        }
     }
 }
