@@ -19,4 +19,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "UPDATE products p SET p.stock_quantity = p.stock_quantity + :amount WHERE p.id IN (SELECT product_id FROM product_suppliers WHERE supplier_id = :supplierId)", nativeQuery = true)
     int increaseStockBySupplierId(@Param("supplierId") Integer supplierId,
             @Param("amount") Integer amount);
+
+    @Query(value = "SELECT COUNT(*) FROM products p WHERE p.id IN "
+            + "(SELECT product_id FROM product_suppliers WHERE supplier_id = :supplierId) "
+            + "AND p.stock_quantity < :threshold", nativeQuery = true)
+    int countLowStockProductsBySupplierId(@Param("supplierId") Integer supplierId,
+            @Param("threshold") Integer threshold);
 }

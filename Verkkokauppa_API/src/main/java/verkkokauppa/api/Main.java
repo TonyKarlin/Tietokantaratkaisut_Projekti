@@ -10,9 +10,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Ladataan tietokantainfot .env tiedostosta erikseen, koska springboot v4 + pom dotenv-java dependencyn kautta
+        // Ladataan tietokantainfot .env tiedostosta erikseen
         Dotenv dotenv = Dotenv.configure()
-                .directory("./Verkkokauppa_API/") // location of .env directory
+                .directory("./Verkkokauppa_API/")
                 .ignoreIfMissing()
                 .load();
 
