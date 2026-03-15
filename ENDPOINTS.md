@@ -63,11 +63,51 @@ GET - haetaan kaikki osoitteet.
 ```HTTP
 GET http://localhost:8080/customer-addresses
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "content": [
+    {
+      "city": "Helsinki",
+      "country": "Finland",
+      "customerId": 1,
+      "id": 1,
+      "postalCode": "00120",
+      "streetAddress": "Uudenmaankatu 10"
+    }
+  ]
+}
+```
 
 GET - haetaan osoite id:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/customer-addresses/{id}
+```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/customer-addresses/1"
+    },
+    "addresses": {
+      "href": "http://localhost:8080/customer-addresses"
+    }
+  },
+  "city": "Helsinki",
+  "country": "Finland",
+  "customerId": 1,
+  "id": 1,
+  "postalCode": "00120",
+  "streetAddress": "Uudenmaankatu 10"
+}
 ```
 
 POST - uuden osoitteen lisääminen.
@@ -82,6 +122,20 @@ Content-Type: application/json
   "postalCode": "00120",
   "city": "Helsinki",
   "country": "Finland"
+}
+```
+```HTTP
+HTTP/1.1 201 Created
+Content-Type: application/json
+```
+```JSON
+{
+  "city": "Helsinki",
+  "country": "Finland",
+  "customerId": 1,
+  "id": 2,
+  "postalCode": "00120",
+  "streetAddress": "Uudenmaankatu 10"
 }
 ```
 
@@ -99,11 +153,31 @@ Content-Type: application/json
   "country": "Finland"
 }
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+{
+  "city": "Helsinki",
+  "country": "Finland",
+  "customerId": 1,
+  "id": 2,
+  "postalCode": "00700",
+  "streetAddress": "Malminkaari 7"
+}
+```
 
 DELETE - osoitteen poistaminen id:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/customer-addresses/{id}
+```
+```HTTP
+HTTP/1.1 204 No Content
+```
+```JSON
+<Response body is empty>
 ```
 
 ## SUPPLIER ADDRESSES
