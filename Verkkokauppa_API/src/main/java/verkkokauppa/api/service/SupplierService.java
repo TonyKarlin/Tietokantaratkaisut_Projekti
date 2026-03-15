@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import verkkokauppa.api.dtos.SupplierRequest;
+import verkkokauppa.api.dtos.supplierDTOs.SupplierRequest;
 import verkkokauppa.api.entity.Product;
 import verkkokauppa.api.entity.Supplier;
 import verkkokauppa.api.repository.ProductRepository;

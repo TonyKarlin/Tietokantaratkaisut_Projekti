@@ -7,7 +7,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 import verkkokauppa.api.controller.OrdersController;
-import verkkokauppa.api.dtos.OrderDTO;
+import verkkokauppa.api.dtos.orderDTOs.OrderDTO;
 import verkkokauppa.api.entity.Order;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

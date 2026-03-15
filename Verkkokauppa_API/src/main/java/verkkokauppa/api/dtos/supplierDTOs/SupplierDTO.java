@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.supplierDTOs;
 
 import verkkokauppa.api.entity.Supplier;
 

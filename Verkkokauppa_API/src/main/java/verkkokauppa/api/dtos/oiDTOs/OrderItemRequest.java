@@ -1,6 +1,4 @@
-package verkkokauppa.api.dtos;
-
-import java.math.BigDecimal;
+package verkkokauppa.api.dtos.oiDTOs;
 
 public record OrderItemRequest(
         Integer orderId,

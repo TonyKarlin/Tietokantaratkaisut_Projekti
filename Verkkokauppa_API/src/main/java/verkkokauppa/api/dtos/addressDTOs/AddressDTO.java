@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.addressDTOs;
 
 
 import verkkokauppa.api.entity.CustomerAddress;

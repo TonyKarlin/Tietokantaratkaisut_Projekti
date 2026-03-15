@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.orderDTOs;
 
 import verkkokauppa.api.entity.Order;
 

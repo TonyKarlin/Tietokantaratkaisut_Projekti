@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import verkkokauppa.api.dtos.SupplierAddressRequest;
+import verkkokauppa.api.dtos.addressDTOs.SupplierAddressRequest;
 import verkkokauppa.api.entity.Supplier;
 import verkkokauppa.api.entity.SupplierAddress;
 import verkkokauppa.api.repository.SupplierAddressRepository;

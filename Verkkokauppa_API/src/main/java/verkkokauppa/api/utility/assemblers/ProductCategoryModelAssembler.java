@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Component;
 
 import verkkokauppa.api.controller.ProductCategoryController;
-import verkkokauppa.api.dtos.ProductCategoryDTO;
+import verkkokauppa.api.dtos.categoryDTOs.ProductCategoryDTO;
 import verkkokauppa.api.entity.ProductCategory;
 
 @NullMarked

@@ -9,7 +9,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Component;
 
 import verkkokauppa.api.controller.ProductController;
-import verkkokauppa.api.dtos.ProductDTO;
+import verkkokauppa.api.dtos.productDTOs.ProductDTO;
 import verkkokauppa.api.entity.Product;
 
 @NullMarked

@@ -3,7 +3,7 @@ package verkkokauppa.api.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import verkkokauppa.api.dtos.AddressRequest;
+import verkkokauppa.api.dtos.addressDTOs.AddressRequest;
 import verkkokauppa.api.entity.Customer;
 import verkkokauppa.api.entity.CustomerAddress;
 import verkkokauppa.api.repository.CustomerAddressesRepository;

@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.categoryDTOs;
 
 import verkkokauppa.api.entity.ProductCategory;
 

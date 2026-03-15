@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.addressDTOs;
 
 public record SupplierAddressRequest(
         Integer id,

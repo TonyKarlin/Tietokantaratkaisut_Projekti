@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.oiDTOs;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import verkkokauppa.api.entity.OrderItem;

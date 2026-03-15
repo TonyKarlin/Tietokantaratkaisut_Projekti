@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import verkkokauppa.api.dtos.SupplierAddressDTO;
-import verkkokauppa.api.dtos.SupplierAddressRequest;
+import verkkokauppa.api.dtos.addressDTOs.SupplierAddressDTO;
+import verkkokauppa.api.dtos.addressDTOs.SupplierAddressRequest;
 import verkkokauppa.api.entity.SupplierAddress;
 import verkkokauppa.api.service.SupplierAddressService;
 import verkkokauppa.api.utility.LoggerUtil;

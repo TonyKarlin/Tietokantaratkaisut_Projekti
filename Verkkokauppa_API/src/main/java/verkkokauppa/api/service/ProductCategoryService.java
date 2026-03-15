@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import verkkokauppa.api.dtos.ProductCategoryRequest;
+import verkkokauppa.api.dtos.categoryDTOs.ProductCategoryRequest;
 import verkkokauppa.api.entity.ProductCategory;
 import verkkokauppa.api.repository.ProductCategoryRepository;
 import verkkokauppa.api.repository.ProductRepository;

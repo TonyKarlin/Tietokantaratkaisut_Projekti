@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import verkkokauppa.api.dtos.ProductCategoryDTO;
-import verkkokauppa.api.dtos.ProductCategoryRequest;
+import verkkokauppa.api.dtos.categoryDTOs.ProductCategoryDTO;
+import verkkokauppa.api.dtos.categoryDTOs.ProductCategoryRequest;
 import verkkokauppa.api.entity.ProductCategory;
 import verkkokauppa.api.service.ProductCategoryService;
 import verkkokauppa.api.utility.LoggerUtil;

@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import verkkokauppa.api.dtos.CustomerRequest;
+import verkkokauppa.api.dtos.customerDTOs.CustomerRequest;
 import verkkokauppa.api.entity.Customer;
 import verkkokauppa.api.repository.CustomersRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.CustomerNotFoundException;

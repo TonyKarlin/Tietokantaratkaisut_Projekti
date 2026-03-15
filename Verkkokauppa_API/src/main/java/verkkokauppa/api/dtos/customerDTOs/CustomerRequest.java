@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.customerDTOs;
 
 public record CustomerRequest(
         String firstName,

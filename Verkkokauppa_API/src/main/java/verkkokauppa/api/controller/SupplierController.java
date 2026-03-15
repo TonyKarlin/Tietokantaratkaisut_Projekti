@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import verkkokauppa.api.dtos.ProductDTO;
-import verkkokauppa.api.dtos.SupplierDTO;
-import verkkokauppa.api.dtos.SupplierRequest;
+import verkkokauppa.api.dtos.productDTOs.ProductDTO;
+import verkkokauppa.api.dtos.supplierDTOs.SupplierDTO;
+import verkkokauppa.api.dtos.supplierDTOs.SupplierRequest;
 import verkkokauppa.api.entity.Supplier;
 import verkkokauppa.api.service.SupplierService;
 import verkkokauppa.api.utility.LoggerUtil;

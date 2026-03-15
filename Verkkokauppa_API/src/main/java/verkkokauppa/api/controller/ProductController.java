@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import verkkokauppa.api.dtos.ProductDTO;
-import verkkokauppa.api.dtos.ProductRequest;
-import verkkokauppa.api.dtos.ProductSearchRequest;
-import verkkokauppa.api.dtos.SupplierDTO;
+import verkkokauppa.api.dtos.productDTOs.ProductDTO;
+import verkkokauppa.api.dtos.productDTOs.ProductRequest;
+import verkkokauppa.api.dtos.productDTOs.ProductSearchRequest;
+import verkkokauppa.api.dtos.supplierDTOs.SupplierDTO;
 import verkkokauppa.api.entity.Product;
 import verkkokauppa.api.service.ProductService;
 import verkkokauppa.api.utility.LoggerUtil;

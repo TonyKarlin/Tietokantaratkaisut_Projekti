@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.categoryDTOs;
 
 public record ProductCategoryRequest(
         Integer id,

@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Component;
 
 import verkkokauppa.api.controller.SupplierAddressController;
-import verkkokauppa.api.dtos.SupplierAddressDTO;
+import verkkokauppa.api.dtos.addressDTOs.SupplierAddressDTO;
 import verkkokauppa.api.entity.SupplierAddress;
 
 @NullMarked

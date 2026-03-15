@@ -1,4 +1,4 @@
-package verkkokauppa.api.dtos;
+package verkkokauppa.api.dtos.productDTOs;
 
 import java.math.BigDecimal;
 
