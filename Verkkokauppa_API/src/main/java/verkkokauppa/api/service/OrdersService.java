@@ -125,6 +125,14 @@ public class OrdersService {
         return orderRepository.bulkUpdateStatusByCustomerId(customerId, fromStatus, toStatus);
     }
 
+    public void delete(Integer id) {
+        if (id == null) {
+            throw new InvalidArgumentException("ID cannot be null");
+        }
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + id));
+        orderRepository.delete(order);
+    }
 
     private boolean isValidOrderRequest(OrderRequest order) {
         return ((order.status() != null && !order.status().isBlank()) &&

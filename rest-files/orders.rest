@@ -50,3 +50,6 @@ Content-Type: application/json
   "shippingAddressId": 1,
   "status": "PENDING"
 }
+
+### DELETE poista tilaus id:n perusteella
+DELETE http://localhost:8080/orders/4

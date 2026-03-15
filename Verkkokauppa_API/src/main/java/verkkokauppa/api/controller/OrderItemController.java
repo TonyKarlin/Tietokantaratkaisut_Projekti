@@ -87,4 +87,13 @@ public class OrderItemController {
                 .location(dtoModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(dtoModel.getContent());
     }
+
+    @DeleteMapping("/{orderId}/product/{productId}")
+    public ResponseEntity<Void> deleteOrderItem(@PathVariable Integer orderId,
+                                                @PathVariable Integer productId) {
+        LoggerUtil.logInfo("---DELETING ORDER ITEM WITH ID: " + orderId + "/" + productId + "---");
+        orderItemService.delete(orderId, productId);
+        LoggerUtil.logInfo("---ORDER ITEM WITH ID: " + orderId + "/" + productId + " DELETED SUCCESSFULLY---");
+        return ResponseEntity.noContent().build();
+    }
 }
