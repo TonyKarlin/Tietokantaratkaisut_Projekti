@@ -121,11 +121,11 @@ Content-Type: application/json
 
 ```JSON
 {
-  "email": "updated@example.com",
-  "firstName": "isThis",
+  "email": "updated@example.org",
+  "firstName": "PAIVITETTY",
   "id": 100006,
-  "lastName": "Working",
-  "phone": "+3585050443413"
+  "lastName": "KAYTTAJA",
+  "phone": "0987654321"
 }
 ```
 
@@ -259,7 +259,7 @@ Content-Type: application/json
   "customerId": 1,
   "id": 2,
   "postalCode": "00700",
-  "streetAddress": "Malminkaari 7"
+  "streetAddress": "Malminkaari 2"
 }
 ```
 
@@ -389,11 +389,11 @@ Content-Type: application/json
 
 ```JSON
 {
-  "city": "Helsinki",
+  "city": "Tampere",
   "country": "Finland",
   "id": 7,
-  "postalCode": "00700",
-  "streetAddress": "testitie 333",
+  "postalCode": "33100",
+  "streetAddress": "Teollisuustie 5",
   "supplierId": 3
 }
 ```
@@ -420,12 +420,12 @@ Content-Type: application/json
 
 ```JSON
 {
-  "city": "Espoo",
+  "city": "Helsinki",
   "country": "Finland",
   "id": 7,
-  "postalCode": "00200",
-  "streetAddress": "testitie 567",
-  "supplierId": 3
+  "postalCode": "00160",
+  "streetAddress": "Satamakatu 12",
+  "supplierId": 1
 }
 ```
 
