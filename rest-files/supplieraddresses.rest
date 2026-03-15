@@ -7,29 +7,29 @@ GET http://localhost:8080/supplieraddresses
 GET http://localhost:8080/supplieraddresses?page=0&size=10
 
 ### GET supplieraddress haku id:n perusteella
-GET http://localhost:8080/supplieraddresses/1
+GET http://localhost:8080/supplieraddresses/5
 
 ### GET all addresses for a specific supplier
-GET http://localhost:8080/supplieraddresses/supplier/{id}
+GET http://localhost:8080/supplieraddresses/supplier/1
 
 ### POST create new supplier address
 POST http://localhost:8080/supplieraddresses
 Content-Type: application/json
 
 {
-  "supplierId": {id},
-  "streetAddress": "testitie 123",
-  "postalCode": "00100",
+  "supplierId": 3,
+  "streetAddress": "testitie 333",
+  "postalCode": "00700",
   "city": "Helsinki",
   "country": "Finland"
 }
 
 ### PUT update supplier address
-PUT http://localhost:8080/supplieraddresses/{id}
+PUT http://localhost:8080/supplieraddresses/7
 Content-Type: application/json
 
 {
-  "supplierId": 1,
+  "supplierId": 3,
   "streetAddress": "testitie 567",
   "postalCode": "00200",
   "city": "Espoo",

@@ -264,17 +264,83 @@ GET - haetaan kaikki toimittajaosoitteet (50 per sivu).
 ```HTTP
 GET http://localhost:8080/supplieraddresses
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "content": [
+    {
+      "city": "Helsinki",
+      "country": "Finland",
+      "id": 5,
+      "postalCode": "00100",
+      "streetAddress": "testitie 123",
+      "supplierId": 1
+    },
+    {
+      "city": "Helsinki",
+      "country": "Finland",
+      "id": 6,
+      "postalCode": "00100",
+      "streetAddress": "testitie 123",
+      "supplierId": 2
+    }
+  ]
+}
+```
 
 GET - haetaan toimittajaosoite id:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/supplieraddresses/{id}
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/supplieraddresses/5"
+    },
+    "supplieraddresses": {
+      "href": "http://localhost:8080/supplieraddresses"
+    }
+  },
+  "city": "Helsinki",
+  "country": "Finland",
+  "id": 5,
+  "postalCode": "00100",
+  "streetAddress": "testitie 123",
+  "supplierId": 1
+}
+```
+
+
 
 GET - haetaan kaikki tietyn toimittajan osoitteet supplierId:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/supplieraddresses/supplier/{supplierId}
+```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+[
+  {
+    "city": "Helsinki",
+    "country": "Finland",
+    "id": 5,
+    "postalCode": "00100",
+    "streetAddress": "testitie 123",
+    "supplierId": 1
+  }
+]
 ```
 
 POST - uuden toimittajaosoitteen lisääminen.
@@ -289,6 +355,20 @@ Content-Type: application/json
   "postalCode": "33100",
   "city": "Tampere",
   "country": "Finland"
+}
+```
+```HTTP
+HTTP/1.1 201 Created
+Content-Type: application/json
+```
+```JSON
+{
+  "city": "Helsinki",
+  "country": "Finland",
+  "id": 7,
+  "postalCode": "00700",
+  "streetAddress": "testitie 333",
+  "supplierId": 3
 }
 ```
 
@@ -306,11 +386,31 @@ Content-Type: application/json
   "country": "Finland"
 }
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+{
+  "city": "Espoo",
+  "country": "Finland",
+  "id": 7,
+  "postalCode": "00200",
+  "streetAddress": "testitie 567",
+  "supplierId": 3
+}
+```
 
 DELETE - toimittajaosoitteen poistaminen id:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/supplieraddresses/{id}
+```
+```HTTP
+HTTP/1.1 204 No Content
+```
+```JSON
+<Response body is empty>
 ```
 
 ## PRODUCTS
