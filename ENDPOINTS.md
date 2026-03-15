@@ -281,6 +281,12 @@ Content-Type: application/json
 }
 ```
 
+DELETE - tilauksen poistaminen id:n perusteella.
+
+```HTTP
+DELETE http://localhost:8080/orders/{id}
+```
+
 ## ORDER ITEMS
 
 GET - haetaan kaikki tilausrivit (sivutettu).
@@ -305,6 +311,50 @@ PATCH - poista alennus tilauksen kaikilta riveiltä.
 
 ```HTTP
 PATCH http://localhost:8080/order-items/{orderId}/remove-discount
+```
+
+POST - luo uusi tilausrivi.
+
+```HTTP
+POST http://localhost:8080/order-items
+Content-Type: application/json
+{
+  "orderId": 200003,
+  "productId": 1,
+  "quantity": {
+    "amount": 2
+  }
+}
+```
+
+PUT - päivitä tilausrivin tietoja (esim. määrä) orderId:n ja productId:n perusteella.
+
+```HTTP
+PUT http://localhost:8080/order-items/{orderId}/product/{productId}
+Content-Type: application/json
+{
+  "amount": 6
+}
+```
+
+DELETE - poista tilausrivi orderId:n ja productId:n perusteella.
+
+```HTTP
+DELETE http://localhost:8080/order-items/{orderId}/product/{productId}
+```
+
+## ORDER TOTALS (NÄKYMÄ)
+
+GET - haetaan tilauksen kokonaistiedot, jossa tilauksen summa, näkymästä orderId:n perusteella.
+
+```HTTP
+GET http://localhost:8080/order-totals/{orderId}
+```
+
+GET - haetaan asiakkaan kaikkien tilausten kokonaistiedot näkymästä customerId:n perusteella.
+
+```HTTP
+GET http://localhost:8080/order-totals/by-customer/{customerId}
 ```
 
 ## SUPPLIERS
