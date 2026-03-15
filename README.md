@@ -25,13 +25,16 @@ Spring Boot REST API verkkokaupan hallintaan (asiakkaat, tuotteet, tilaukset, to
 - Tietokanta
   - Indeksit (`schema/indexing.sql`)
   - Näkymät (`schema/views.sql`)
+  - Liipaisin (`schema/trigger.sql`)
 
 ## Ohjeet sovelluksen käyttöön
 
-- [TIETOKANTA KÄYTTÖÖN OTTO PUUTTUU VIELÄ]
+- Projektissa käytetään pohjana kurssilta saatu `schema_populated_dump.sql`
+  - Sekä suorita `/schema`-kansiosta löytyvät `.sql`-tiedostot, jotta tarvittavat muutokset saadaan tietokantaan.
 - Luo tietokantakäyttäjä, esimerkki alempana.
 - Luo `.env` tiedosto `Verkkokauppa_API` kansion sisälle, käyttäen `.env.template` tiedostoa mallina.
 - Aseta `.env` tiedostoon tietokannan nimi, käyttäjä ja salasana.
+- Endpointtien testaaminen onnistuu suoraan `.rest`-tiedostojen kautta, mitkä löytyvät `/rest-files`-kansiosta.
 
 ## .env esimerkki
 
@@ -54,10 +57,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE, ALTER, CREATE, DROP, INDEX ON `tkr-projekt
 
 FLUSH PRIVILEGES;
 ```
-
-Tietokannassa on käytetty `schema_populated_dump` skeemaa. Ja tämän lisäksi erillisenä ajettu `schema-changes.sql` tiedostoa, joka sisältää tarvittavat muutokset tietokantaan.
-
-`schema-changes.sql` tiedosto löytyy schema-kansiosta.
 
 ## Endpoints
 
