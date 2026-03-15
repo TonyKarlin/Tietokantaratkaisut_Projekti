@@ -2,10 +2,10 @@
 GET http://localhost:8080/orders
 
 ### GET hae tilaus id:n perusteella
-GET http://localhost:8080/orders/100001
+GET http://localhost:8080/orders/200004
 
 ### GET hae tilaukset asiakkaan id:n perusteella
-GET http://localhost:8080/orders/by-customer/1
+GET http://localhost:8080/orders/by-customer/51914
 
 ### POST uuden tilauksen lisääminen (palauttaa dto objektin, jossa on id)
 POST http://localhost:8080/orders
@@ -15,7 +15,7 @@ Content-Type: application/json
   "customerId": 1,
   "orderDate": "2024-06-02T00:00:00",
   "deliveryDate": "2024-06-05T00:00:00",
-  "shippingAddressId": 1,
+  "shippingAddressId": 8,
   "status": "NEW"
 }
 
@@ -47,7 +47,7 @@ Content-Type: application/json
   "customerId": 1,
   "orderDate": "2024-06-02T00:00:00",
   "deliveryDate": "2024-06-06T00:00:00",
-  "shippingAddressId": 1,
+  "shippingAddressId": 8,
   "status": "PENDING"
 }
 

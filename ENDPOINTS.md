@@ -670,6 +670,32 @@ GET - haetaan kaikki tilaukset.
 ```HTTP
 GET http://localhost:8080/orders
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "content": [
+    {
+      "addressId": 51914,
+      "customerId": 51914,
+      "deliveryDate": "2024-04-06T16:16:43",
+      "id": 1,
+      "orderDate": "2024-04-03T17:51:08",
+      "status": "CANCELLED"
+    },
+    {
+      "addressId": 3791,
+      "customerId": 3791,
+      "deliveryDate": null,
+      "id": 2,
+      "orderDate": "2024-06-22T23:08:14",
+      "status": "CANCELLED"
+    }
+  ]
+}
+```
 
 GET - haetaan tilaus id:n perusteella.
 
@@ -681,6 +707,32 @@ GET - haetaan tilaukset asiakkaan id:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/orders/by-customer/{customerId}
+```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "content": [
+    {
+      "addressId": 51914,
+      "customerId": 51914,
+      "deliveryDate": "2024-04-06T16:16:43",
+      "id": 1,
+      "orderDate": "2024-04-03T17:51:08",
+      "status": "CANCELLED"
+    },
+    {
+      "addressId": 51914,
+      "customerId": 51914,
+      "deliveryDate": "2024-07-21T23:16:54",
+      "id": 4632,
+      "orderDate": "2024-07-20T11:24:06",
+      "status": "NEW"
+    }
+  ]
+}
 ```
 
 POST - uuden tilauksen lisääminen.
@@ -694,6 +746,20 @@ Content-Type: application/json
   "orderDate": "2024-06-02T00:00:00",
   "deliveryDate": "2024-06-05T00:00:00",
   "shippingAddressId": 1,
+  "status": "NEW"
+}
+```
+```HTTP
+HTTP/1.1 201 Created
+Content-Type: application/json
+```
+```JSON
+{
+  "addressId": 8,
+  "customerId": 1,
+  "deliveryDate": "2024-06-05T00:00:00",
+  "id": 200005,
+  "orderDate": "2024-06-02T00:00:00",
   "status": "NEW"
 }
 ```
@@ -712,6 +778,20 @@ Content-Type: application/json
   "status": "PENDING"
 }
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+{
+  "addressId": 8,
+  "customerId": 1,
+  "deliveryDate": "2024-06-06T00:00:00",
+  "id": 200004,
+  "orderDate": "2024-06-02T00:00:00",
+  "status": "PENDING"
+}
+```
 
 PATCH - päivitä tilausten statukset (bulk).
 
@@ -723,6 +803,15 @@ Content-Type: application/json
   "orderIds": [100, 1000, 10000],
   "fromStatus": "NEW",
   "toStatus": "PENDING"
+}
+```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+{
+  "updatedCount": 1
 }
 ```
 
@@ -738,11 +827,27 @@ Content-Type: application/json
   "toStatus": "PENDING"
 }
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+{
+  "updatedCount": 4
+}
+```
+
 
 DELETE - tilauksen poistaminen id:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/orders/{id}
+```
+```HTTP
+HTTP/1.1 204 No Content
+```
+```JSON
+<Response body is empty>
 ```
 
 ## ORDER ITEMS
