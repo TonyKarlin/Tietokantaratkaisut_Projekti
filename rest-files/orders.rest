@@ -38,3 +38,15 @@ Content-Type: application/json
   "fromStatus": "NEW",
   "toStatus": "PENDING"
 }
+
+### PUT päivitä tilaus id:n perusteella
+PUT http://localhost:8080/orders/200001
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "orderDate": "2024-06-02T00:00:00",
+  "deliveryDate": "2024-06-06T00:00:00",
+  "shippingAddressId": 1,
+  "status": "PENDING"
+}

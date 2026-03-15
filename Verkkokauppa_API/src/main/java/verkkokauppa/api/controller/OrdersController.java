@@ -65,6 +65,19 @@ public class OrdersController {
                 .body(dtoModel.getContent());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Integer id,
+                                                @RequestBody OrderRequest request) {
+        LoggerUtil.logInfo("---UPDATING ORDER WITH ID: " + id + "---");
+        Order updatedOrder = ordersService.putRequest(id, request);
+        LoggerUtil.logInfo("---ORDER WITH ID: " + id + " UPDATED SUCCESSFULLY---");
+
+        EntityModel<OrderDTO> dtoModel = assembler.toModel(updatedOrder);
+        return ResponseEntity.ok()
+                .location(dtoModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(dtoModel.getContent());
+    }
+
     @PatchMapping("/batch/status")
     public ResponseEntity<Map<String, Object>> bulkUpdateStatus(
             @RequestBody BatchStatusRequest request) {
