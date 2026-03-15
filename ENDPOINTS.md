@@ -93,11 +93,11 @@ Content-Type: application/json
 
 ```JSON
 {
-  "email": "test@example.com",
-  "firstName": "test",
+  "email": "test@example.org",
+  "firstName": "TESTI",
   "id": 100006,
-  "lastName": "testington",
-  "phone": "0606606060"
+  "lastName": "KAYTTAJA",
+  "phone": "1234567890"
 }
 ```
 
