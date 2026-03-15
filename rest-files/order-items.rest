@@ -29,3 +29,6 @@ Content-Type: application/json
 {
   "amount": 6
 }
+
+### DELETE - poista tilausrivi
+DELETE http://localhost:8080/order-items/1/product/1

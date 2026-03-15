@@ -98,4 +98,12 @@ public class OrdersController {
         return ResponseEntity.ok(Map.of("updatedCount", updated));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrderById(@PathVariable Integer id) {
+        LoggerUtil.logInfo("---DELETING ORDER WITH ID: " + id + "---");
+        ordersService.delete(id);
+        LoggerUtil.logInfo("---ORDER WITH ID: " + id + " DELETED SUCCESSFULLY---");
+        return ResponseEntity.noContent().build();
+    }
+
 }

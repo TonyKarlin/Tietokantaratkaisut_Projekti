@@ -126,6 +126,14 @@ public class OrderItemService {
         return repository.save(existing);
     }
 
+    public void delete(Integer orderId, Integer productId) {
+        if (orderId == null || productId == null) {
+            throw new InvalidArgumentException("Order ID and Product ID cannot be null");
+        }
+        OrderItem existing = getByIdOrThrow(orderId, productId);
+        repository.delete(existing);
+    }
+
     private boolean isValidOrderItemRequest(OrderItemRequest request) {
         return request.orderId() != null
                 && request.productId() != null
