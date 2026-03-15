@@ -17,11 +17,56 @@ GET - haetaan kaikki asiakkaat (50 per sivu).
 ```HTTP
 GET http://localhost:8080/customers
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "content": [
+    {
+      "email": "vsmith1@example.com",
+      "firstName": "Dustin",
+      "id": 1,
+      "lastName": "Carey",
+      "phone": "001-789-824-7188x591"
+    },
+    {
+      "email": "nunezmary2@example.net",
+      "firstName": "Jeanette",
+      "id": 2,
+      "lastName": "Hendrix",
+      "phone": "(941)966-5615"
+    }
+  ]
+}
+```
 
 GET - haetaan asiakas id:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/customers/{id}
+```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/customers/100005"
+    },
+    "customers": {
+      "href": "http://localhost:8080/customers"
+    }
+  },
+  "email": "test@example.com",
+  "firstName": "testitesti",
+  "id": 100005,
+  "lastName": "testinen",
+  "phone": "1231423354"
+}
 ```
 
 POST - uuden asiakkaan lisääminen.
@@ -34,6 +79,19 @@ Content-Type: application/json
   "lastName": "KAYTTAJA",
   "email": "test@example.org",
   "phoneNumber": "1234567890" // valinnainen
+}
+```
+```HTTP
+HTTP/1.1 201 Created
+Content-Type: application/json
+```
+```JSON
+{
+  "email": "test@example.com",
+  "firstName": "test",
+  "id": 100006,
+  "lastName": "testington",
+  "phone": "0606606060"
 }
 ```
 
@@ -49,11 +107,30 @@ Content-Type: application/json
   "phoneNumber": "0987654321"
 }
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```JSON
+{
+  "email": "updated@example.com",
+  "firstName": "isThis",
+  "id": 100006,
+  "lastName": "Working",
+  "phone": "+3585050443413"
+}
+```
 
 DELETE - asiakkaan poistaminen id:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/customers/{id}
+```
+```HTTP
+HTTP/1.1 204 No Content
+```
+```JSON
+<Response body is empty>
 ```
 
 ## ADDRESSES

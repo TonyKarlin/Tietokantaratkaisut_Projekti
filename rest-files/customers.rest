@@ -2,29 +2,29 @@
 GET http://localhost:8080/customers
 
 ### GET hae asiakas id:n perusteella
-GET http://localhost:8080/customers/100002
+GET http://localhost:8080/customers/100005
 
 ### POST uuden asiakkaan lisääminen (palauttaa dto objektin, jossa on id)
 POST http://localhost:8080/customers
 Content-Type: application/json
 
 {
-  "firstName": "testiukko556",
-  "lastName": "testinen",
+  "firstName": "test",
+  "lastName": "testington",
   "email": "test@example.com",
-  "phoneNumber": "05050443413"
+  "phoneNumber": "0606606060"
 }
 
 ### PUT päivittää asiakkaan tietoja (palauttaa dto objektin, jossa on id)
-PUT http://localhost:8080/customers/100004
+PUT http://localhost:8080/customers/100006
 Content-Type: application/json
 
 {
-  "firstName": "pentti",
-  "lastName": "ukko",
-  "email": "penttiupdated@example.com",
+  "firstName": "isThis",
+  "lastName": "Working",
+  "email": "updated@example.com",
   "phoneNumber": "+3585050443413"
 }
 
 ### DELETE poistaa asiakkaan id:n perusteella
-DELETE http://localhost:8080/customers/100002
+DELETE http://localhost:8080/customers/100006
