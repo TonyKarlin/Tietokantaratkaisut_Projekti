@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS contacts;
+
 CREATE TABLE addresses
 (
     id             INT AUTO_INCREMENT PRIMARY KEY,
