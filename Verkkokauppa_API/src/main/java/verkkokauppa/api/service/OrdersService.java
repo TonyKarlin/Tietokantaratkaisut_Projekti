@@ -10,6 +10,7 @@ import verkkokauppa.api.entity.CustomerAddress;
 import verkkokauppa.api.entity.Order;
 import verkkokauppa.api.repository.OrdersRepository;
 import verkkokauppa.api.utility.exceptions.custom_exceptions.InvalidArgumentException;
+import verkkokauppa.api.utility.exceptions.custom_exceptions.OrderNotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,32 @@ public class OrdersService {
                 order.status()
         );
         return orderRepository.save(newOrder);
+    }
+
+    public Order putRequest(Integer id, OrderRequest updateRequest) {
+        if (id == null) {
+            throw new InvalidArgumentException("ID cannot be null");
+        }
+        if (updateRequest == null) {
+            throw new InvalidArgumentException("Update request cannot be null");
+        }
+        if (!isValidOrderRequest(updateRequest)) {
+            throw new InvalidArgumentException("Required fields missing.");
+        }
+
+        Order existingOrder = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + id));
+
+        Customer customer = fetchCustomer(updateRequest.customerId());
+        CustomerAddress address = fetchAddress(updateRequest.shippingAddressId());
+
+        existingOrder.setCustomer(customer);
+        existingOrder.setAddress(address);
+        existingOrder.setOrderDate(updateRequest.orderDate());
+        existingOrder.setDeliveryDate(updateRequest.deliveryDate());
+        existingOrder.setStatus(updateRequest.status());
+
+        return orderRepository.save(existingOrder);
     }
 
     @Transactional
