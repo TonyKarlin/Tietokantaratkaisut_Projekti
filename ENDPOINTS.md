@@ -1026,11 +1026,92 @@ GET - haetaan tilauksen kokonaistiedot, jossa tilauksen summa, näkymästä orde
 ```HTTP
 GET http://localhost:8080/order-totals/{orderId}
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/order-totals/1"
+    },
+    "byCustomer": {
+      "href": "http://localhost:8080/order-totals/by-customer/51914"
+    }
+  },
+  "orderId": 1,
+  "customerId": 51914,
+  "orderDate": "2024-04-03",
+  "deliveryDate": "2024-04-06",
+  "shippingAddressId": 51914,
+  "status": "CANCELLED",
+  "itemLines": 3,
+  "totalQuantity": 7,
+  "totalAmount": 3940.83
+}
+```
 
 GET - haetaan asiakkaan kaikkien tilausten kokonaistiedot näkymästä customerId:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/order-totals/by-customer/{customerId}
+```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "_embedded": {
+    "orderTotalsDTOList": [
+      {
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/order-totals/35760"
+          },
+          "byCustomer": {
+            "href": "http://localhost:8080/order-totals/by-customer/2"
+          }
+        },
+        "orderId": 35760,
+        "customerId": 2,
+        "orderDate": "2025-05-18",
+        "deliveryDate": "2025-05-28",
+        "shippingAddressId": 2,
+        "status": "NEW",
+        "itemLines": 1,
+        "totalQuantity": 3,
+        "totalAmount": 2464.77
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/order-totals/95702"
+          },
+          "byCustomer": {
+            "href": "http://localhost:8080/order-totals/by-customer/2"
+          }
+        },
+        "orderId": 95702,
+        "customerId": 2,
+        "orderDate": "2025-04-03",
+        "deliveryDate": "2025-04-07",
+        "shippingAddressId": 2,
+        "status": "NEW",
+        "itemLines": 4,
+        "totalQuantity": 9,
+        "totalAmount": 2114.99
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/order-totals/by-customer/2"
+    }
+  }
+}
+
 ```
 
 ## SUPPLIERS
