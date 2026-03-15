@@ -40,7 +40,7 @@ Content-Type: application/json
 }
 
 ### PUT päivitä tilaus id:n perusteella
-PUT http://localhost:8080/orders/200001
+PUT http://localhost:8080/orders/200004
 Content-Type: application/json
 
 {

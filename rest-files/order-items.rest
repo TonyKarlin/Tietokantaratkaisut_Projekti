@@ -15,8 +15,8 @@ POST http://localhost:8080/order-items
 Content-Type: application/json
 
 {
-  "orderId": 1,
-  "productId": 6,
+  "orderId": 200003,
+  "productId": 1,
   "quantity": {
     "amount": 2
   }
@@ -31,4 +31,4 @@ Content-Type: application/json
 }
 
 ### DELETE - poista tilausrivi
-DELETE http://localhost:8080/order-items/1/product/1
+DELETE http://localhost:8080/order-items/200003/product/1
