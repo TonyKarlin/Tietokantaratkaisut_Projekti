@@ -601,16 +601,67 @@ jälleenmyyjää ei ole linkitetty POST metodin kautta, mikä on tässä alempan
 GET http://localhost:8080/products/{id}/suppliers
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+[
+  {
+    "contactName": "Mia Manninen",
+    "email": "mia.manninen@polarelec.fi",
+    "id": 1,
+    "name": "Polar Electronics Oy",
+    "phone": "0401001000"
+  }
+]
+```
+
 POST - lisätään toimittaja tuotteelle (N:M-suhde).
 
 ```HTTP
 POST http://localhost:8080/products/{productId}/suppliers/{supplierId}
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+{
+  "categoryId": 2,
+  "description": "Her fall move current him.",
+  "id": 1,
+  "name": "Super Bug 360",
+  "price": 22.22,
+  "stockQuantity": 146,
+  "supplierId": 35
+}
+```
+
 DELETE - poistetaan toimittaja tuotteelta (N:M-suhde).
 
 ```HTTP
 DELETE http://localhost:8080/products/{productId}/suppliers/{supplierId}
+```
+
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+{
+  "categoryId": 2,
+  "description": "Her fall move current him.",
+  "id": 1,
+  "name": "Super Bug 360",
+  "price": 22.22,
+  "stockQuantity": 146,
+  "supplierId": 35
+}
 ```
 
 ## PRODUCT CATEGORIES
@@ -621,16 +672,89 @@ GET - haetaan kaikki tuotekategoriat (50 per sivu).
 GET http://localhost:8080/productcategories
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+{
+  "content": [
+    {
+      "description": "Sähkölaitteet, komponentit ja elektroniikkatuotteet",
+      "id": 1,
+      "name": "Elektroniikka"
+    }
+  ]
+}
+```
+
 GET - haetaan tuotekategoria id:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/productcategories/{id}
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/productcategories/1"
+    },
+    "productcategories": {
+      "href": "http://localhost:8080/productcategories"
+    }
+  },
+  "description": "Sähkölaitteet, komponentit ja elektroniikkatuotteet",
+  "id": 1,
+  "name": "Elektroniikka"
+}
+```
+
 GET - haetaan tuotekategoria ja sen kaikki tuotteet (LAZY loading).
 
 ```HTTP
 GET http://localhost:8080/productcategories/{id}/products
+```
+
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+{
+  "name": "Elektroniikka",
+  "description": "Sähkölaitteet, komponentit ja elektroniikkatuotteet",
+  "id": 1,
+  "products": [
+    {
+      "categoryId": 1,
+      "description": "Focus test but out catch million with see view.",
+      "id": 7,
+      "name": "Magic Bit 840",
+      "price": 352.35,
+      "stockQuantity": 378,
+      "supplierId": 100,
+      "suppliers": []
+    },
+    {
+      "categoryId": 1,
+      "description": "Us really personal yes into yourself task happen.",
+      "id": 8,
+      "name": "Shiny Planet 299",
+      "price": 697.49,
+      "stockQuantity": 179,
+      "supplierId": 93,
+      "suppliers": []
+    }
+  ]
+}
 ```
 
 POST - uuden tuotekategorian lisääminen.
@@ -642,6 +766,20 @@ Content-Type: application/json
 {
   "name": "testi",
   "description": "testikategoria"
+}
+```
+
+```HTTP
+HTTP/1.1 201 Created
+Location: http://localhost:8080/productcategories/11
+Content-Type: application/json
+```
+
+```JSON
+{
+  "description": "testikategoria",
+  "id": 11,
+  "name": "testi"
 }
 ```
 
@@ -657,10 +795,32 @@ Content-Type: application/json
 }
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Location: http://localhost:8080/productcategories/11
+Content-Type: application/json
+```
+
+```JSON
+{
+  "description": "testikategoriapäivitys",
+  "id": 11,
+  "name": "testipäivitys"
+}
+```
+
 DELETE - tuotekategorian poistaminen (HUOM. POISTAA SAMALLA KAIKKI TUOTTEET SEN KATEGORIASTA)
 
 ```HTTP
 DELETE http://localhost:8080/productcategories/{id}
+```
+
+```HTTP
+HTTP/1.1 204 No Content
+```
+
+```JSON
+<Response body is empty>
 ```
 
 ## ORDERS
@@ -670,10 +830,12 @@ GET - haetaan kaikki tilaukset.
 ```HTTP
 GET http://localhost:8080/orders
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "content": [
@@ -702,10 +864,12 @@ GET - haetaan tilaus id:n perusteella.
 ```HTTP
 GET http://localhost:8080/orders/{id}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "_links": {
@@ -730,10 +894,12 @@ GET - haetaan tilaukset asiakkaan id:n perusteella.
 ```HTTP
 GET http://localhost:8080/orders/by-customer/{customerId}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "content": [
@@ -771,10 +937,12 @@ Content-Type: application/json
   "status": "NEW"
 }
 ```
+
 ```HTTP
 HTTP/1.1 201 Created
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "addressId": 8,
@@ -800,10 +968,12 @@ Content-Type: application/json
   "status": "PENDING"
 }
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "addressId": 1,
@@ -827,10 +997,12 @@ Content-Type: application/json
   "toStatus": "PENDING"
 }
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "updatedCount": 1
@@ -849,25 +1021,28 @@ Content-Type: application/json
   "toStatus": "PENDING"
 }
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "updatedCount": 4
 }
 ```
 
-
 DELETE - tilauksen poistaminen id:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/orders/{id}
 ```
+
 ```HTTP
 HTTP/1.1 204 No Content
 ```
+
 ```JSON
 <Response body is empty>
 ```
@@ -879,10 +1054,12 @@ GET - haetaan kaikki tilausrivit (sivutettu).
 ```HTTP
 GET http://localhost:8080/order-items
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "content": [
@@ -909,10 +1086,12 @@ GET - haetaan tilausrivi order_id:n ja product_id:n perusteella.
 ```HTTP
 GET http://localhost:8080/order-items/{orderId}/product/{productId}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "_links": {
@@ -936,10 +1115,12 @@ PATCH - lisää alennus tilauksen kaikille riveille (discount = prosentti).
 ```HTTP
 PATCH http://localhost:8080/order-items/{orderId}/discount?discount=10
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 3
 ```
@@ -949,10 +1130,12 @@ PATCH - poista alennus tilauksen kaikilta riveiltä.
 ```HTTP
 PATCH http://localhost:8080/order-items/{orderId}/remove-discount
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 3
 ```
@@ -970,10 +1153,12 @@ Content-Type: application/json
   }
 }
 ```
+
 ```HTTP
 HTTP/1.1 201 Created
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "orderId": 200000,
@@ -993,10 +1178,12 @@ Content-Type: application/json
   "amount": 6
 }
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
+
 ```JSON
 {
   "orderId": 200004,
@@ -1012,9 +1199,11 @@ DELETE - poista tilausrivi orderId:n ja productId:n perusteella.
 ```HTTP
 DELETE http://localhost:8080/order-items/{orderId}/product/{productId}
 ```
+
 ```HTTP
 HTTP/1.1 204 No Content
 ```
+
 ```JSON
 <Response body is empty>
 ```
@@ -1026,10 +1215,12 @@ GET - haetaan tilauksen kokonaistiedot, jossa tilauksen summa, näkymästä orde
 ```HTTP
 GET http://localhost:8080/order-totals/{orderId}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "_links": {
@@ -1057,10 +1248,12 @@ GET - haetaan asiakkaan kaikkien tilausten kokonaistiedot näkymästä customerI
 ```HTTP
 GET http://localhost:8080/order-totals/by-customer/{customerId}
 ```
+
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
 ```
+
 ```JSON
 {
   "_embedded": {
@@ -1122,10 +1315,59 @@ GET - haetaan kaikki toimittajat (50 per sivu).
 GET http://localhost:8080/suppliers
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+{
+  "content": [
+    {
+      "contactName": "Mia Manninen",
+      "email": "mia.manninen@polarelec.fi",
+      "id": 1,
+      "name": "Polar Electronics Oy",
+      "phone": "0401001000"
+    },
+    {
+      "contactName": "Samira Morgan",
+      "email": "samira.morgan@ecotech.com",
+      "id": 2,
+      "name": "EcoTech Ltd",
+      "phone": "0507236312"
+    }
+  ]
+}
+```
+
 GET - haetaan toimittaja id:n perusteella.
 
 ```HTTP
 GET http://localhost:8080/suppliers/{id}
+```
+
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/suppliers/1"
+    },
+    "suppliers": {
+      "href": "http://localhost:8080/suppliers"
+    }
+  },
+  "contactName": "Mia Manninen",
+  "email": "mia.manninen@polarelec.fi",
+  "id": 1,
+  "name": "Polar Electronics Oy",
+  "phone": "0401001000"
+}
 ```
 
 POST - uuden toimittajan lisääminen.
@@ -1139,6 +1381,22 @@ Content-Type: application/json
   "contactName": "Matti Meikäläinen",
   "phone": "+358401234567",
   "email": "matti@tech.fi"
+}
+```
+
+```HTTP
+HTTP/1.1 201 Created
+Location: http://localhost:8080/suppliers/101
+Content-Type: application/json
+```
+
+```JSON
+{
+  "contactName": "Testi Timo",
+  "email": "timo@testi.com",
+  "id": 101,
+  "name": "Testi firma",
+  "phone": "+01010101001"
 }
 ```
 
@@ -1156,10 +1414,34 @@ Content-Type: application/json
 }
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Location: http://localhost:8080/suppliers/101
+Content-Type: application/json
+```
+
+```JSON
+{
+  "contactName": "Jane Smith",
+  "email": "jane@supplier.com",
+  "id": 101,
+  "name": "Updated Supplier Name",
+  "phone": "+358409876543"
+}
+```
+
 DELETE - toimittajan poistaminen id:n perusteella.
 
 ```HTTP
 DELETE http://localhost:8080/suppliers/{id}
+```
+
+```HTTP
+HTTP/1.1 204 No Content
+```
+
+```JSON
+<Response body is empty>
 ```
 
 ### N:M-SUHDE: Supplier ↔ Product
@@ -1170,10 +1452,44 @@ GET - haetaan toimittajan kaikki tuotteet (N:M-suhde).
 GET http://localhost:8080/suppliers/{id}/products
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+[
+  {
+    "contactName": "Mia Manninen",
+    "email": "mia.manninen@polarelec.fi",
+    "id": 1,
+    "name": "Polar Electronics Oy",
+    "phone": "0401001000"
+  }
+]
+```
+
 POST - lisätään tuote toimittajalle (N:M-suhde).
 
 ```HTTP
 POST http://localhost:8080/suppliers/{supplierId}/products/{productId}
+```
+
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+{
+  "categoryId": 2,
+  "description": "Her fall move current him.",
+  "id": 1,
+  "name": "Super Bug 360",
+  "price": 22.22,
+  "stockQuantity": 146,
+  "supplierId": 35
+}
 ```
 
 DELETE - poistetaan tuote toimittajalta (N:M-suhde).
@@ -1182,10 +1498,55 @@ DELETE - poistetaan tuote toimittajalta (N:M-suhde).
 DELETE http://localhost:8080/suppliers/{supplierId}/products/{productId}
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+{
+  "categoryId": 2,
+  "description": "Her fall move current him.",
+  "id": 1,
+  "name": "Super Bug 360",
+  "price": 22.22,
+  "stockQuantity": 146,
+  "supplierId": 35
+}
+```
+
 GET - haetaan toimittajan tuotteiden varastotiedot.
 
 ```HTTP
 GET http://localhost:8080/suppliers/{supplierId}/products/stock
+```
+
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+[
+  {
+    "categoryId": 3,
+    "description": "Ask decide need next very capital.",
+    "id": 3,
+    "name": "Quantum Widget 457",
+    "price": 849.66,
+    "stockQuantity": 323,
+    "supplierId": 17
+  },
+  {
+    "categoryId": 2,
+    "description": "Her fall move current him.",
+    "id": 1,
+    "name": "Super Bug 360",
+    "price": 22.22,
+    "stockQuantity": 146,
+    "supplierId": 35
+  }
+]
 ```
 
 PATCH - massaoperaatio: kasvatetaan toimittajan kaikkien tuotteiden `stockQuantity`-arvoa.
@@ -1194,20 +1555,89 @@ PATCH - massaoperaatio: kasvatetaan toimittajan kaikkien tuotteiden `stockQuanti
 PATCH http://localhost:8080/suppliers/{supplierId}/products/stock/increase?amount=10
 ```
 
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+6
+```
+
 ## PRODUCTS (Criteria API haku)
 
-POST - dynaaminen haku tuotteille usealla ehdolla (Criteria API).
+POST - dynaaminen haku tuotteille usealla ehdolla (Criteria API). Kaikki kentät ovat valinnaisia — `null` = ei rajausta. Jos kaikki null, palautetaan kaikki tuotteet.
 
 ```HTTP
 POST http://localhost:8080/products/search
 Content-Type: application/json
 
 {
-  "nameContains": "test",
+  "nameContains": null,
+  "minPrice": null,
+  "maxPrice": null,
+  "minStock": null,
+  "categoryId": null,
+  "supplierId": null
+}
+```
+
+Esimerkki: tuotteet joiden nimessä "Shiny":
+
+```HTTP
+POST http://localhost:8080/products/search
+Content-Type: application/json
+
+{
+  "nameContains": "Shiny",
+  "minPrice": null,
+  "maxPrice": null,
+  "minStock": null,
+  "categoryId": null,
+  "supplierId": null
+}
+```
+
+Esimerkki: tuotteet hinnalla 10–500, vähintään 5 kpl varastossa:
+
+```HTTP
+POST http://localhost:8080/products/search
+Content-Type: application/json
+
+{
+  "nameContains": null,
   "minPrice": 10.00,
   "maxPrice": 500.00,
   "minStock": 5,
-  "categoryId": 1,
-  "supplierId": 1
+  "categoryId": null,
+  "supplierId": null
 }
+```
+
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```JSON
+[
+  {
+    "categoryId": 2,
+    "description": "Her fall move current him.",
+    "id": 1,
+    "name": "Super Bug 360",
+    "price": 22.22,
+    "stockQuantity": 156,
+    "supplierId": 35
+  },
+  {
+    "categoryId": 5,
+    "description": "After game authority quickly science single put from film behavior.",
+    "id": 4,
+    "name": "Zippy Key 143",
+    "price": 327.95,
+    "stockQuantity": 280,
+    "supplierId": 81
+  }
+]
 ```
