@@ -702,6 +702,28 @@ GET - haetaan tilaus id:n perusteella.
 ```HTTP
 GET http://localhost:8080/orders/{id}
 ```
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+```
+```JSON
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/orders/200004"
+    },
+    "orders": {
+      "href": "http://localhost:8080/orders"
+    }
+  },
+  "addressId": 8,
+  "customerId": 1,
+  "deliveryDate": "2024-06-06T00:00:00",
+  "id": 200004,
+  "orderDate": "2024-06-02T00:00:00",
+  "status": "PENDING"
+}
+```
 
 GET - haetaan tilaukset asiakkaan id:n perusteella.
 
