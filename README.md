@@ -18,7 +18,7 @@ Spring Boot REST API verkkokaupan hallintaan (asiakkaat, tuotteet, tilaukset, to
 - Endpointit (lisätietoa alempana...)
   - CRUD metodit kaikille tarvittaville tietokannan tauluille
   - N:M-suhde Product <-> Supplier
-  - Bul päivitykset tilausten statuspäivityksiin ja toimittajien tuotteiden varaston kasvattamiseen
+  - Bulk päivitykset tilausten statuspäivityksiin ja toimittajien tuotteiden varaston kasvattamiseen
 - Lukitus (Supplier stock update)
   - Jos supplierin linkitetyissä tuotteissa on stock alle 10, sallitaan vain yksi samanaikainen stock update kyseiselle supplierille.
   - Rinnakkainen toinen pyyntö palauttaa HTTP 423 Locked.
