@@ -9,3 +9,33 @@ PATCH http://localhost:8080/order-items/1/discount?discount=10
 
 ### PATCH poista alennus tilauksen kaikilta riveiltä
 PATCH http://localhost:8080/order-items/1/remove-discount
+
+### POST - luo tilausrivi
+POST http://localhost:8080/order-items
+Content-Type: application/json
+
+{
+  "orderId": 1,
+  "productId": 6,
+  "quantity": {
+    "amount": 2
+  }
+}
+
+### PUT - päivitä tilausrivi
+PUT http://localhost:8080/order-items/1/product/1
+Content-Type: application/json
+
+{
+  "amount": 6
+}
+
+### PUT - päivitä tilausrivi, mutta product_id on eri (should fail if validated)
+PUT http://localhost:8080/order-items/1/product/426
+Content-Type: application/json
+
+{
+  "orderId": 2,
+  "productId": 999,
+  "quantity": 3
+}

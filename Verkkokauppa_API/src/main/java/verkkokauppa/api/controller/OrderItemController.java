@@ -4,15 +4,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import verkkokauppa.api.dtos.OIQuantityUpdateRequest;
 import verkkokauppa.api.dtos.OrderItemDTO;
+import verkkokauppa.api.dtos.OrderItemRequest;
 import verkkokauppa.api.entity.OrderItem;
 import verkkokauppa.api.service.OrderItemService;
+import verkkokauppa.api.utility.LoggerUtil;
 import verkkokauppa.api.utility.assemblers.OIModelAssembler;
 
 import java.math.BigDecimal;
-
 
 @RestController
 @RequestMapping("/order-items")
@@ -54,5 +57,34 @@ public class OrderItemController {
     public ResponseEntity<Integer> removeDiscount(@PathVariable Integer orderId) {
         int updatedCount = orderItemService.removeDiscountFromOrderItems(orderId);
         return ResponseEntity.ok(updatedCount);
+    }
+
+    @PostMapping
+    public ResponseEntity<OrderItemDTO> postOrderItem(@RequestBody OrderItemRequest request) {
+        if (request == null) {
+            return ResponseEntity.noContent().build();
+        }
+        LoggerUtil.logInfo("---ADDING NEW ORDER ITEM: " + request.orderId() + "/" + request.productId() + "---");
+        OrderItem saved = orderItemService.postRequest(request);
+        LoggerUtil.logInfo("---ORDER ITEM ADDED SUCCESSFULLY WITH ID: "
+                + saved.getId().getOrderId() + "/" + saved.getId().getProductId() + "---");
+
+        EntityModel<OrderItemDTO> dtoModel = assembler.toModel(saved);
+        return ResponseEntity.created(dtoModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(dtoModel.getContent());
+    }
+
+    @PutMapping("/{orderId}/product/{productId}")
+    public ResponseEntity<OrderItemDTO> updateOrderItem(@PathVariable Integer orderId,
+                                                        @PathVariable Integer productId,
+                                                        @RequestBody OIQuantityUpdateRequest request) {
+        LoggerUtil.logInfo("---UPDATING ORDER ITEM WITH ID: " + orderId + "/" + productId + "---");
+        OrderItem updated = orderItemService.putRequest(orderId, productId, request);
+        LoggerUtil.logInfo("---ORDER ITEM WITH ID: " + orderId + "/" + productId + " UPDATED SUCCESSFULLY---");
+
+        EntityModel<OrderItemDTO> dtoModel = assembler.toModel(updated);
+        return ResponseEntity.ok()
+                .location(dtoModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(dtoModel.getContent());
     }
 }
