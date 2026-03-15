@@ -767,7 +767,7 @@ Content-Type: application/json
   "customerId": 1,
   "orderDate": "2024-06-02T00:00:00",
   "deliveryDate": "2024-06-05T00:00:00",
-  "shippingAddressId": 1,
+  "shippingAddressId": 8,
   "status": "NEW"
 }
 ```
@@ -806,7 +806,7 @@ Content-Type: application/json
 ```
 ```JSON
 {
-  "addressId": 8,
+  "addressId": 1,
   "customerId": 1,
   "deliveryDate": "2024-06-06T00:00:00",
   "id": 200004,
